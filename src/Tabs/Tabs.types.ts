@@ -7,7 +7,7 @@ export type ID = string|number;
 export type TabData = [ID, React.ReactNode, React.ReactNode];
 export interface TabsProps {
     children: TabData[]
-    onMove: (id: ID, toPosition: number) => void
+    onMove?: (id: ID, toPosition: number) => void
     active?: ID
 }
 

@@ -14,7 +14,7 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
         accept: 'TAB',
         drop: ({ id }, monitor) => {
             if (monitor.didDrop()) return;
-            onMove(id, children.length);
+            onMove?.(id, children.length);
         },
         collect: monitor => monitor.isOver({ shallow: true })
     }, [children.length, onMove]);
@@ -25,7 +25,7 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
         })}>
             {children.map(([id, title], idx) => <>
                 <Tab key={id} id={id} active={id == active}
-                    onDrop={id => onMove(id, idx)} onClick={() => setActive(id)}
+                    onDrop={id => onMove?.(id, idx)} onClick={() => setActive(id)}
                 >
                     {title}
                 </Tab>
