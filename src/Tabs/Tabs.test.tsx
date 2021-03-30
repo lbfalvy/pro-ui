@@ -13,9 +13,9 @@ describe("Test Component", () => {
   beforeEach(() => {
     props = {
       children: [
-        [0, 'tab0', 'content0'],
-        [1, 'tab1', 'content1'],
-        [2, 'tab2', 'content2']
+        { id: 0, title: 'tab0', children: 'content0' },
+        { id: 1, title: 'tab1', children: 'content1' },
+        { id: 2, title: 'tab2', children: 'content2' },
       ]
     };
   });

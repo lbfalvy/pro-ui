@@ -9,12 +9,12 @@ import { classList, mergeRefs } from "../utils";
 
 const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) => {
     const [active, setActive] = React.useState<ID>(activeDefault);
-    if (!children.some(([id]) => id == active)) setActive(children[0][0]);
+    if (!children.some(({id}) => id == active)) setActive(children[0].id);
     const [over, drop] = useDrop({
         accept: 'TAB',
-        drop: ({ id }, monitor) => {
+        drop: ({ id, metadata }, monitor) => {
             if (monitor.didDrop()) return;
-            onMove?.(id, children.length);
+            onMove?.(children.length, id, metadata);
         },
         collect: monitor => monitor.isOver({ shallow: true })
     }, [children.length, onMove]);
@@ -23,18 +23,18 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
             'tabs-container-heads': true,
             'over': over
         })}>
-            {children.map(([id, title], idx) => <>
-                <Tab key={id} id={id} active={id == active}
-                    onDrop={id => onMove?.(id, idx)} onClick={() => setActive(id)}
+            {children.map(({id, title, metadata}, idx) => <>
+                <Tab key={id} id={id} metadata={metadata} active={id == active}
+                    onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => setActive(id)}
                 >
                     {title}
                 </Tab>
             </>)}
         </div>
         <div className={'tabs-container-bodies'}>
-            {children.map(([id, _, content]) => <>
+            {children.map(({id, children}) => <>
                 <div key={id} className={id == active ? 'active' : ''}>
-                    {content}
+                    {children}
                 </div>
             </>)}
         </div>
@@ -43,23 +43,24 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
 
 interface TabProps {
     id: ID
+    metadata: any
     children: React.ReactNode
     active: boolean
-    onDrop: (id: ID) => void
+    onDrop: (id: ID, metadata: any) => void
     onClick: () => void
 }
-const Tab: React.FC<TabProps> = ({ id, children, active, onDrop, onClick }) => {
+const Tab: React.FC<TabProps> = ({ id, metadata, children, active, onDrop, onClick }) => {
     const [over, drop] = useDrop({
         accept: 'TAB',
-        drop: ({ id }, monitor) => {
+        drop: ({ id, meatdata }, monitor) => {
             if (monitor.didDrop()) return;
-            onDrop(id);
+            onDrop(id, metadata);
         },
         collect: monitor => monitor.isOver({ shallow: true })
     }, [onDrop]);
     const [dragged, drag] = useDrag({
         type: 'TAB',
-        item: { id },
+        item: { id, metadata },
         collect: monitor => monitor.isDragging()
     }, [id]);
     return <div ref={mergeRefs<HTMLDivElement>(drag, drop)} className={classList({
