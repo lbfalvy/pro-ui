@@ -1,5 +1,5 @@
 {
-  "name": "react-component-library",
+  "name": "pro-ui",
   "version": "1.0.0",
   "main": "build/index.js",
   "module": "build/index.esm.js",
@@ -7,7 +7,7 @@
     "build"
   ],
   "types": "build/index.d.ts",
-  "description": "A skeleton to create your own React component library using Rollup, TypeScript, Sass and Storybook",
+  "description": "A React.js component library with components that lend themselves to customization to create UIs for advanced users.",
   "scripts": {
     "build": "rollup -c",
     "test": "jest",
@@ -19,26 +19,30 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HarveyD/react-component-library.git"
+    "url": "git+https://github.com/lbfalvy/pro-ui.git"
   },
   "keywords": [
     "React",
     "Component",
     "Library",
-    "Rollup",
     "Typescript",
-    "Sass",
-    "Storybook"
+    "Expert",
+    "Pro",
+    "Editor",
+    "Tabs",
+    "Drag-and-drop"
   ],
-  "author": "Harvey Delaney",
+  "author": "Lawrence Bethlenfalvy",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HarveyD/react-component-library/issues"
+    "url": "https://github.com/lbfalvy/pro-ui/issues"
   },
-  "homepage": "https://github.com/HarveyD/react-component-library#readme",
+  "homepage": "https://github.com/lbfalvy/pro-ui#readme",
   "peerDependencies": {
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react-dom": ">=16.8.0",
+    "react-dnd": "^14.0.2",
+    "react-dnd-html5-backend": "^14.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
@@ -67,9 +71,5 @@
     "sass-loader": "^10.1.1",
     "ts-jest": "^26.5.4",
     "typescript": "^4.2.3"
-  },
-  "dependencies": {
-    "react-dnd": "^14.0.2",
-    "react-dnd-html5-backend": "^14.0.0"
   }
 }
