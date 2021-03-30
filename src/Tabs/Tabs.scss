@@ -2,8 +2,50 @@
 @import "../variables.scss";
 @import "../typography.scss";
 
-.foo-bar {
+.tabs-container {
   @include font-defaults;
-
+  $inactive-bg: #d2d2d2;
+  $tab-border: #c2c2c2;
+  $bg: #e2e2e2;
+  $over-bg: #fff;
+  $hover-bg: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  background: $bg;
   color: $harvey-green;
+  .tabs-container-heads {
+    $heads-bg: #c2c2c2;
+    background: $heads-bg;
+    flex: 0 0 1;
+    & > div {
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+      background: $inactive-bg;
+      border-left: 1px solid $tab-border;
+      border-right: 1px solid $tab-border;
+      padding: 7px 10px 3px;
+      &.active {
+        background: $bg;
+      }
+      &.over:not(.dragged) {
+        background: mix($inactive-bg, $over-bg, 30%);
+        &.active {
+          background: mix($bg, $over-bg, 30%);
+        }
+      }
+    }
+    &.over {
+      background: mix($over-bg, $heads-bg, 30%);
+    }
+  }
+  .tabs-container-bodies {
+    & > div {
+      display: none;
+      &.active {
+        display: block;
+      }
+      padding: 10px;
+    }
+  }
 }

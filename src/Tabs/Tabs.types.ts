@@ -1,11 +1,14 @@
 import React from "react";
 import Tabs from "./Tabs";
 
+export type ID = string|number;
+
 // Generated with util/create-component.js
-export type TabData = [string, React.ReactNode, React.ReactNode];
+export type TabData = [ID, React.ReactNode, React.ReactNode];
 export interface TabsProps {
     children: TabData[]
-    onMove: (id: string, toPosition: number) => void
+    onMove: (id: ID, toPosition: number) => void
+    active?: ID
 }
 
 /**
