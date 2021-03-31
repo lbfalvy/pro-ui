@@ -9,7 +9,7 @@ import { classList, mergeRefs } from "../utils";
 
 const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) => {
     const [active, setActive] = React.useState<ID>(activeDefault);
-    if (!children.some(({id}) => id == active)) setActive(children[0].id);
+    if (!children.some(({id}) => id == active) && children.length) setActive(children[0].id);
     const [over, drop] = useDrop({
         accept: 'TAB',
         drop: ({ id, metadata }, monitor) => {
@@ -23,6 +23,7 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
             'tabs-container-heads': true,
             'over': over
         })}>
+            <div className="height-holder">If you see this text, CSS is broken.</div>
             {children.map(({id, title, metadata}, idx) => <>
                 <Tab key={id} id={id} metadata={metadata} active={id == active}
                     onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => setActive(id)}
@@ -64,6 +65,7 @@ const Tab: React.FC<TabProps> = ({ id, metadata, children, active, onDrop, onCli
         collect: monitor => monitor.isDragging()
     }, [id]);
     return <div ref={mergeRefs<HTMLDivElement>(drag, drop)} className={classList({
+        'tabs-container-head': true,
         'over': over,
         'active': active,
         'dragged': dragged
