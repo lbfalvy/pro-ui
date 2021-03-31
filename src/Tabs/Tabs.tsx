@@ -53,7 +53,7 @@ interface TabProps {
 const Tab: React.FC<TabProps> = ({ id, metadata, children, active, onDrop, onClick }) => {
     const [over, drop] = useDrop({
         accept: 'TAB',
-        drop: ({ id, meatdata }, monitor) => {
+        drop: ({ id, metadata }, monitor) => {
             if (monitor.didDrop()) return;
             onDrop(id, metadata);
         },
