@@ -23,7 +23,7 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
             'tabs-container-heads': true,
             'over': over
         })}>
-            <div className="height-holder">If you see this text, CSS is broken.</div>
+            <div key="height-holder" className="height-holder">If you see this text, CSS is broken.</div>
             {children.map(({id, title, metadata}, idx) => <>
                 <Tab key={id} id={id} metadata={metadata} active={id == active}
                     onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => setActive(id)}
