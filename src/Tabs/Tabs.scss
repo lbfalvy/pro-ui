@@ -9,6 +9,7 @@
   $bg: #e2e2e2;
   $over-bg: #fff;
   $hover-bg: #eaeaea;
+  $accent: #99f;
   display: flex;
   flex-direction: column;
   background: $bg;
@@ -36,7 +37,7 @@
       padding: 7px 10px 3px;
       &.active {
         background: $bg;
-        border-top: 2px solid #55f;
+        border-top: 2px solid $accent;
       }
       &.over:not(.dragged) {
         $inactive-over-bg: mix($inactive-bg, $over-bg, 30%);
