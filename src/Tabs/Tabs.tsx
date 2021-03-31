@@ -33,9 +33,9 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
             </>)}
         </div>
         <div className={'tabs-container-bodies'}>
-            {children.map(({id, children}) => <>
+            {children.map(({id, children: content}) => <>
                 <div key={id} className={id == active ? 'active' : ''}>
-                    {children}
+                    {content}
                 </div>
             </>)}
         </div>
