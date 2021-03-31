@@ -32,14 +32,20 @@
       background: $inactive-bg;
       border-left: 1px solid $tab-border;
       border-right: 1px solid $tab-border;
+      border-top: 2px solid $inactive-bg;
       padding: 7px 10px 3px;
       &.active {
         background: $bg;
+        border-top: 2px solid #55f;
       }
       &.over:not(.dragged) {
-        background: mix($inactive-bg, $over-bg, 30%);
+        $inactive-over-bg: mix($inactive-bg, $over-bg, 30%);
+        border-top: 2px solid $inactive-over-bg;
+        background: $inactive-over-bg;
         &.active {
-          background: mix($bg, $over-bg, 30%);
+          $active-over-bg: mix($bg, $over-bg, 30%);
+          border-top: 2px solid $active-over-bg;
+          background: $active-over-bg;
         }
       }
     }

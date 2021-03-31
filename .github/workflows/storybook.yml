@@ -1,7 +1,12 @@
 name: Build and Deploy
 on:
   push:
-    paths: [".storybook/**", "src/**"] # Trigger the action only when files change in the folders defined here
+    paths: [
+        ".storybook/**",
+        "src/**",
+        "package.json",
+        ".github/workflows/storybook.yml",
+      ] # Trigger the action only when files change in the folders defined here
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

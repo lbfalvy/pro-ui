@@ -38,7 +38,7 @@
     "url": "https://github.com/lbfalvy/pro-ui/issues"
   },
   "homepage": "https://github.com/lbfalvy/pro-ui#readme",
-  "peerDependencies": {
+  "dependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
     "react-dnd": "^14.0.2",
