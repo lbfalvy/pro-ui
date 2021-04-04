@@ -1,0 +1,99 @@
+// Generated with util/create-component.js
+@import "../variables.scss";
+@import "../typography.scss";
+
+.splits-ghost-border {
+  position: absolute;
+  background-color: #77d;
+  &.splits-ghost-border-x {
+    transform: scaleX(0.5);
+  }
+  &.splits-ghost-border-y {
+    transform: scaleY(0.5);
+  }
+}
+
+.splits-container {
+  @include font-defaults;
+  position: relative;
+  $resize-handle-size: 10px;
+  height: 100%;
+  color: $harvey-green;
+  background: #ccc;
+  & > * {
+    height: 100%;
+    &.splits-subsplit {
+      position: relative;
+      flex: 1 1;
+      background: #666;
+      display: flex;
+      &.splits-y {
+        flex-direction: column;
+        & > .splits-resize-handle {
+          height: $resize-handle-size;
+        }
+      }
+      &.splits-x {
+        flex-direction: row;
+        & > .splits-resize-handle {
+          width: $resize-handle-size;
+        }
+      }
+      & > * {
+        min-width: 0;
+        overflow-x: auto;
+      }
+      & > .splits-border {
+        flex: 0 0 5px;
+        &.dragged {
+          background-color: #888;
+        }
+        &.enabled {
+          &.splits-border-y {
+            cursor: ns-resize;
+          }
+          &.splits-border-x {
+            cursor: ew-resize;
+          }
+        }
+      }
+    }
+  }
+  & > .splits-overlay {
+    height: unset;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      ". top ."
+      "left . right"
+      ". bottom .";
+    div {
+      box-sizing: border-box;
+      border: 5px solid #444;
+      background: solid #aaa;
+      width: 10px;
+      height: 10px;
+    }
+    .splits-overlay-top {
+      grid-area: top;
+      border-bottom-color: blue;
+    }
+    .splits-overlay-left {
+      grid-area: left;
+      border-right-color: blue;
+    }
+    .splits-overlay-right {
+      grid-area: right;
+      border-left-color: blue;
+    }
+    .splits-overlay-bottom {
+      grid-area: bottom;
+      border-top-color: blue;
+    }
+  }
+}

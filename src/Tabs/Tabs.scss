@@ -18,7 +18,11 @@
     $heads-bg: #c2c2c2;
     background: $heads-bg;
     flex: 0 0 1;
-    & > div.height-holder {
+    white-space: nowrap;
+    overflow-x: auto;
+    min-width: 0;
+    scrollbar-width: none;
+    div.height-holder {
       display: inline-block;
       width: 0;
       overflow-x: hidden;
@@ -26,7 +30,7 @@
       vertical-align: top;
       padding: 7px 0 3px;
     }
-    & > div.tabs-container-head {
+    div.tabs-container-head {
       cursor: pointer;
       user-select: none;
       display: inline-block;

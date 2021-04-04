@@ -1,16 +1,17 @@
 // Generated with util/create-component.js
 import React from "react";
 
-import { ID, TabsProps } from "./Tabs.types";
+import { ID, TabsProps, TabDrag, TabData } from "./Tabs.types";
 
+import ScrollArea from 'react-scrollbar';
 import "./Tabs.scss";
 import { useDrag, useDrop } from "react-dnd";
-import { classList, mergeRefs } from "../utils";
+import { classList, horizontalScroll, mergeRefs } from "../utils";
 
-const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) => {
-    const [active, setActive] = React.useState<ID>(activeDefault);
+function Tabs<T>({ children, onMove, active: activeDefault }: TabsProps<T>): React.ReactElement {
+    const [active, setActive] = React.useState<ID | undefined>(activeDefault);
     if (!children.some(({id}) => id == active) && children.length) setActive(children[0].id);
-    const [over, drop] = useDrop({
+    const [over, drop] = useDrop<TabDrag<T>, void, boolean>({
         accept: 'TAB',
         drop: ({ id, metadata }, monitor) => {
             if (monitor.didDrop()) return;
@@ -22,12 +23,20 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
         <div ref={drop} className={classList({
             'tabs-container-heads': true,
             'over': over
-        })}>
-            <div key="height-holder" className="height-holder">If you see this text, CSS is broken.</div>
+        })} onWheel={ev => {
+            ev.preventDefault();
+            console.log(ev.defaultPrevented);
+            ev.currentTarget.scrollBy({
+                behavior: 'auto',
+                left: ev.deltaY * 10
+            });
+        }}>
+            <div key="height-holder" className="height-holder">
+                If you see this text, CSS is broken.
+            </div>
             {children.map(({id, title, metadata}, idx) => <>
-                <Tab key={id} id={id} metadata={metadata} active={id == active}
-                    onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => setActive(id)}
-                >
+                <Tab<T> key={id} id={id} metadata={metadata!} active={id == active}
+                    onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => setActive(id)}>
                     {title}
                 </Tab>
             </>)}
@@ -42,16 +51,17 @@ const Tabs: React.FC<TabsProps> = ({ children, onMove, active: activeDefault }) 
     </div>
 };
 
-interface TabProps {
+interface TabProps<T> {
     id: ID
-    metadata: any
+    metadata: T
     children: React.ReactNode
     active: boolean
-    onDrop: (id: ID, metadata: any) => void
+    onDrop: (id: ID, metadata: T) => void
     onClick: () => void
 }
-const Tab: React.FC<TabProps> = ({ id, metadata, children, active, onDrop, onClick }) => {
-    const [over, drop] = useDrop({
+
+function Tab<T>({ id, metadata, children, active, onDrop, onClick }: TabProps<T>): React.ReactElement {
+    const [over, drop] = useDrop<TabDrag<T>, void, boolean>({
         accept: 'TAB',
         drop: ({ id, metadata }, monitor) => {
             if (monitor.didDrop()) return;
@@ -64,7 +74,7 @@ const Tab: React.FC<TabProps> = ({ id, metadata, children, active, onDrop, onCli
         item: { id, metadata },
         collect: monitor => monitor.isDragging()
     }, [id]);
-    return <div ref={mergeRefs<HTMLDivElement>(drag, drop)} className={classList({
+    return <div ref={mergeRefs(drag, drop)} className={classList({
         'tabs-container-head': true,
         'over': over,
         'active': active,
@@ -76,3 +86,6 @@ const Tab: React.FC<TabProps> = ({ id, metadata, children, active, onDrop, onCli
 
 export default Tabs;
 
+export function removeTab<T>(tabs: TabData<T>[], id: ID): TabData<T> | undefined {
+    return tabs.splice(tabs.findIndex(el => el.id === id), 1)[0]
+}

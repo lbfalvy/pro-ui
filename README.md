@@ -24,10 +24,21 @@ DndProvider.
 
 A tabbed container that allows to reorganise tabs with drag-and-drop, even
 between containers. It takes an array of tab definitions as its children.
-A tab definition has an `id` which is a string or a number, a `title` which is
-a valid React child, a `children` property which will be the body of the tab,
-and optionally a `metadata` property that can be used to store where the tab
-can be found in a more complex state management solution.
+
+```TS
+interface TabData {
+  id: string | number
+  title: ReactNode
+  children: ReactNode
+  metadata?: any
+}
+```
+
+It is important that `id` be unique with respect to any group of `Tabs`
+elements within which movement is allowed because it is used for the `key`
+prop of tabs and contents alike. `id` and `metadata` together serve to identify
+the tab to your own code, so you should probably encode how to locatethe `Tabs`
+element in `metadata`.
 
 Usage:
 
@@ -50,15 +61,15 @@ Usage:
 ```
 
 `id` can be either a string or a number. When the user moves a tab, `onMove` is
-called on the target container, with
+called on the target container, with the following arguments:
 
-- the position the tab should be moved to as the first argument,
-- the ID of the moved tab as the second and
-- the metadata of the moved element as the third.
+- the position the tab should be moved to
+- the ID of the moved tab
+- the metadata of the moved tab
 
 The children won't be moved by themselves, you have to store your children in
 an appropriate structure and handle the onMove event in the parent component.
-For an example of how this could be done, see the relevant story in the docs.
+For an example of how this could be done, see the story in the docs.
 
 See it in action at https://lbfalvy.github.io/pro-ui
 
