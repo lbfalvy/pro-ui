@@ -3,8 +3,9 @@ import produce from "immer";
 import React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { ID } from "../types";
 import Tabs, { removeTab } from "./Tabs";
-import { ID, TabData } from "./Tabs.types";
+import { TabData } from "./Tabs.types";
 
 export default {
     title: "Tabs",
