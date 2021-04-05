@@ -83,7 +83,7 @@ export function TabSplits({
             onSplit={(path, side, { id, metadata }) => onSplit?.(path, side, id, metadata)}>
             {transposeSplitTree(children, null, (path, cell) => <>
                 <Tabs<number[]> onMove={(...data) => onMove?.(path, ...data)}>
-                    {cell}
+                    {cell.map(data => ({ ...data, metadata: path }))}
                 </Tabs>
             </>)}
         </Splits>
