@@ -1,17 +1,31 @@
 // Generated with util/create-component.js
 import React, { ReactNode } from "react";
 
-import { Axis, ResizeHandler, ResizeItem, Side, SplitChild, SplitData, SplitHandler, SplitsProps } from "./Splits.types";
+import { ResizeItem, SplitChild, SplitData, SplitsProps } from "./Splits.types";
 
 import "./Splits.scss";
 import { classList, mergeRefs, useDimensions, usePointer } from "../utils";
 import { useDrag, useDrop } from "react-dnd";
+import { Axis, Side } from "../types";
 
-function Splits<K extends string, I = {}>({
+/**
+ * A drag and drop split container inspired by Visual Studio and the Unity
+ * Editor. It supports resizing by dragging if {@link onResize} is defined and
+ * a {@link SplitsLayer} component covers the whole container, and supports
+ * reorganising by drag and drop if {@link onSplit} and {@link splitTypes} are
+ * set.
+ * 
+ * If you want to use it with {@link Tabs}, check out {@link TabSplits}.
+ * 
+ * @category Splits
+ * @param param0 
+ * @returns 
+ */
+function Splits<T>({
     children,
     minSize, onResize, // Resizing
     splitTypes, onSplit // splitting
-}: SplitsProps<K, I>) {
+}: SplitsProps<T>) {
     const _minSize = minSize ?? 0;
     const splitTypesArray = typeof splitTypes == 'string' ? [splitTypes] : splitTypes ?? [];
     const [shouldShowSplit, drop] = useDrop({
@@ -29,28 +43,23 @@ function Splits<K extends string, I = {}>({
             ? <SplitsContainer {...children} splitTypes={splitTypesArray} 
                 onResize={onResize} onSplit={onSplit} minSize={_minSize} />
             : <div>{children}</div>}
-        {shouldShowSplit ? <SplitOverlay<I, K> onSplit={onSplit} splitTypes={splitTypesArray} /> : null}
+        {shouldShowSplit ? <SplitOverlay<T> onSplit={onSplit} splitTypes={splitTypesArray} /> : null}
     </div>
 }
 
-interface SplitsContainerProps<K extends string, I> extends SplitData {
+interface SplitsContainerProps<T> extends SplitData {
     minSize: number
-    onResize?: ResizeHandler
-    onSplit?: SplitHandler<I, K>
-    splitTypes: K[]
+    onResize?: (path: number[], after: number, amount: number) => void;
+    onSplit?: (path: number[], side: Side, item: T, type: string) => void;
+    splitTypes: string[]
 }
-function SplitsContainer<K extends string, I>({
+function SplitsContainer<T>({
     axis, children, minSize, onResize, onSplit, splitTypes
-}: SplitsContainerProps<K, I>): React.ReactElement {
+}: SplitsContainerProps<T>): React.ReactElement {
     const [ref, dimensions] = useDimensions<HTMLDivElement>();
     const size = axis == 'y' ? dimensions.height : dimensions.width;
     return <div ref={ref} className={`splits-subsplit splits-${axis}`}>
         {children.map(({ ratio, content }, i) => {
-            // Child (handlers are passed up)
-            const onChildResize: ResizeHandler | undefined = 
-                onResize ? (r, ...p) => onResize([i, ...r], ...p) : undefined;
-            const onChildSplit: SplitHandler<I, K> | undefined =
-                onSplit ? (r, ...p) => onSplit([i, ...r], ...p) : undefined;
             const flexBasis = `${Math.round(ratio * 100)}%`;
             // Resize
             const isLast = i + 1 == children.length;
@@ -70,7 +79,7 @@ function SplitsContainer<K extends string, I>({
             return <>
                 <div className="splits-content" style={{ flexBasis }}>
                     <Splits minSize={minSize} splitTypes={splitTypes}
-                        onResize={onChildResize} onSplit={onChildSplit}>
+                        onResize={upLink(i, onResize)} onSplit={upLink(i, onSplit)}>
                         {content}
                     </Splits>
                 </div>
@@ -78,6 +87,10 @@ function SplitsContainer<K extends string, I>({
             </>;
         })}
     </div>
+}
+
+function upLink<Args extends any[], R>(n: number, f?: (p: number[], ...args: Args) => R): (typeof f | undefined) {
+    return f ? (r, ...p) => f([n, ...r], ...p) : undefined;
 }
 
 interface HandleProps {
@@ -115,28 +128,28 @@ const ResizeHandle: React.FC<HandleProps> = ({ axis, onResize }) => {
     />
 }
 
-interface SplitOverlayProps<I, K extends string> {
-    splitTypes: K[]
+interface SplitOverlayProps<T> {
+    splitTypes: string[]
     baseIndex?: number
-    onSplit?: SplitHandler<I, K>
+    onSplit?: (path: number[], side: Side, item: T, type: string) => void;
 }
-function SplitOverlay<I, K extends string>({
+function SplitOverlay<T>({
     splitTypes, baseIndex, onSplit
-}: SplitOverlayProps<I, K>): React.ReactElement {
+}: SplitOverlayProps<T>): React.ReactElement {
     return <div className='splits-overlay'>{sides.map(side => <>
-        <SplitArea<I, K> side={side} splitTypes={splitTypes}
+        <SplitArea<T> side={side} splitTypes={splitTypes}
             onSplit={(item, type) => onSplit?.(baseIndex ? [baseIndex] : [], side, item, type)} />
     </>)}</div>
 }
-interface SplitAreaProps<I, K extends string> {
+interface SplitAreaProps<T> {
     side: Side,
-    splitTypes: K[],
-    onSplit?: (item: I, type: K) => void
+    splitTypes: string[],
+    onSplit?: (item: T, type: string) => void
 }
-function SplitArea<I, K extends string>({ side, splitTypes, onSplit }: SplitAreaProps<I, K>): React.ReactElement {
-    const [over, drop] = useDrop<I, void, boolean>({
+function SplitArea<T>({ side, splitTypes, onSplit }: SplitAreaProps<T>): React.ReactElement {
+    const [over, drop] = useDrop<T, void, boolean>({
         accept: [...splitTypes],
-        drop: (item, monitor) => onSplit?.(item, monitor.getItemType() as K),
+        drop: (item, monitor) => onSplit?.(item, monitor.getItemType() as string),
         collect: monitor => {
             const type = monitor.getItemType();
             return monitor.isOver() && typeof type == 'string'
@@ -151,11 +164,27 @@ function SplitArea<I, K extends string>({ side, splitTypes, onSplit }: SplitArea
 
 const sides: Side[] = ['top','bottom','left','right'];
 
+/**
+ * Create a node for the {@link Splits} definition tree.
+ * @category Splits
+ * @param axis In which direction to lay out the children
+ * @param children Sub-elements or subcontainers and their relative sizes.
+ * @returns 
+ */
 export function getSplitData<T>(axis: Axis, children: SplitChild<T>[]): SplitData<T> {
     return { TYPE_ID: "SplitData", axis, children };
 }
-export function isSplitData<T = ReactNode>(def: SplitData<T> | T): def is SplitData<T> {
-    const sd = def as SplitData<T>;
+
+/**
+ * Identifies subcontainer definitions in contrast to other objects. It uses a
+ * TYPE_ID field so that it works in scenarios where runtime type assertions
+ * like `instanceof`, `in` and `Object` methods don't, like Immer drafts.
+ * @category Splits
+ * @param x 
+ * @returns whether `x` is a subcontainer definition
+ */
+export function isSplitData<T = ReactNode>(x: SplitData<T> | T): x is SplitData<T> {
+    const sd = x as SplitData<T>;
     return sd.TYPE_ID == 'SplitData';
 }
 

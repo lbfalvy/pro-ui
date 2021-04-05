@@ -1,15 +1,17 @@
 import produce, { Draft } from "immer";
+import { Side } from "../types";
 import { getSplitData, isSplitData } from "./Splits";
-import { Axis, Side, SplitChild, SplitData, SplitSubdata, SplitSubdataFunction } from "./Splits.types";
+import { SplitData } from "./Splits.types";
 
 /**
  * Traverses the tree and returns the node at the end of the path  
  * Use for reading and with immer
+ * @category Splits
  * @param data 
  * @param path 
  * @returns
  */
-export function traverseSplitTree<T>(data: SplitSubdata<T>, path: number[]): SplitSubdata<T> {
+export function traverseSplitTree<T>(data: T | SplitData<T>, path: number[]): T | SplitData<T> {
     if (path.length == 0) return data;
     if (!isSplitData(data)) throw new Error('Cannot subdivide leaf');
     if (path[0] < 0 || data.children.length <= path[0]) throw new Error('Path leads out of bounds');
@@ -23,22 +25,23 @@ export function traverseSplitTree<T>(data: SplitSubdata<T>, path: number[]): Spl
  * 
  * It can be guaranteed to return a SplitData iff the predicate is guaranteed
  * to return a SplitData or the path is guaranteed to be non-empty
+ * @category Splits
  * @param data 
  * @param path 
  * @param predicate 
  */
-export function editSplitData<T, U extends SplitSubdata<T> = SplitSubdata<T>>(
-    data: SplitSubdata<T>, path: number[],
-    predicate: (x: SplitSubdata<T>) => (U & SplitData<T>)
+export function editSplitData<T, U extends T | SplitData<T> = T | SplitData<T>>(
+    data: T | SplitData<T>, path: number[],
+    predicate: (x: T | SplitData<T>) => (U & SplitData<T>)
 ): SplitData<T>
-export function editSplitData<T, U extends SplitSubdata<T> = SplitSubdata<T>>(
-    data: SplitSubdata<T>, path: number[],
-    predicate: (x: SplitSubdata<T>) => U
-): SplitSubdata<T>
-export function editSplitData<T, U extends SplitSubdata<T>>(
-    data: SplitSubdata<T>,
+export function editSplitData<T, U extends T | SplitData<T> = T | SplitData<T>>(
+    data: T | SplitData<T>, path: number[],
+    predicate: (x: T | SplitData<T>) => U
+): T | SplitData<T>
+export function editSplitData<T, U extends T | SplitData<T>>(
+    data: T | SplitData<T>,
     path: number[],
-    predicate: (x: SplitSubdata<T>) => U
+    predicate: (x: T | SplitData<T>) => U
 ): SplitData<T | U> | U {
     if (0 < path.length) {
         if (!isSplitData(data)) throw new Error('Path refers to child of leaf');
@@ -56,7 +59,8 @@ export function editSplitData<T, U extends SplitSubdata<T>>(
 
 /**
  * Moves a border in the grid. This may leave negative sized cells and other
- * artifacts so call fixSplitSizes on the result.
+ * artifacts so call {@link fixSplitSizes} on the result.
+ * @category Splits
  * @param data 
  * @param path 
  * @param index Index of the node before (left/up) the moved border
@@ -85,6 +89,7 @@ export function resizeSplit<T>(
  * with the transformations. Additionally, because it moves a subtree, use
  * {@link transposeSplitTree} to update all affected if you are storing the
  * access paths in the nodes.
+ * @category Splits
  * @param data 
  * @param path 
  * @param side 
@@ -92,10 +97,10 @@ export function resizeSplit<T>(
  * @returns 
  */
 export function subdivideSplit<T>(
-    data: SplitSubdata<T>,
+    data: T | SplitData<T>,
     path: number[],
     side: Side,
-    fresh: SplitSubdata<T>
+    fresh: T | SplitData<T>
 ): SplitData<T> {
     const vertical = side == 'bottom' || side == 'top';
     const before = side == 'top' || side == 'left';
@@ -110,17 +115,18 @@ export function subdivideSplit<T>(
 
 /**
  * Recursively visits every node in the specified subtree with the correct
- * full path and the old leaf. Use this to update any stored instances of the
+ * full path and the old node. Use this to update any stored instances of the
  * access path after tree transformations like executeSplit and fixTopology
+ * @category Splits
  * @param data 
  * @param path 
  * @param callback
  */
 export function transposeSplitTree<T, U>(data: SplitData<T>, path: null, callback: (fullPath: number[], leaf: T) => U): SplitData<U>;
-export function transposeSplitTree<T, U extends SplitSubdata<T>>(data: SplitData<T>, path: number[], callback: (fullPath: number[], leaf: T) => U): SplitData<T | U>;
-export function transposeSplitTree<T, U>(data: SplitSubdata<T>, path: null, callback: (fullPath: number[], leaf: T) => U): SplitSubdata<U>;
-export function transposeSplitTree<T, U extends SplitSubdata<T>>(data: SplitSubdata<T>, path: number[], callback: (fullPath: number[], leaf: T) => U): SplitSubdata<T | U>;
-export function transposeSplitTree<T, U>(data: SplitSubdata<T>, path: null | number[], callback: (fullPath: number[], leaf: T) => U): SplitSubdata<T | U> {
+export function transposeSplitTree<T, U extends T | SplitData<T>>(data: SplitData<T>, path: number[], callback: (fullPath: number[], leaf: T) => U): SplitData<T | U>;
+export function transposeSplitTree<T, U>(data: T | SplitData<T>, path: null, callback: (fullPath: number[], leaf: T) => U): U | SplitData<U>;
+export function transposeSplitTree<T, U extends T | SplitData<T>>(data: T | SplitData<T>, path: number[], callback: (fullPath: number[], leaf: T) => U): T | U | SplitData<T | U>;
+export function transposeSplitTree<T, U>(data: T | SplitData<T>, path: null | number[], callback: (fullPath: number[], leaf: T) => U): T | U | SplitData<T | U> {
     if (!path || path.length == 0) return recursivelyTransposeTree(data, [], callback);
     /** @TODO figure out how to explain this to TypeScript. */
     return editSplitData<T, any>(
@@ -129,10 +135,10 @@ export function transposeSplitTree<T, U>(data: SplitSubdata<T>, path: null | num
     );
 }
 function recursivelyTransposeTree<T, U = T>(
-    data: SplitSubdata<T>,
+    data: T | SplitData<T>,
     fullPath: number[],
     callback: (fullPath: number[], leaf: T) => U
-): SplitSubdata<U> {
+): U | SplitData<U> {
     if (!isSplitData(data)) return callback(fullPath, data);
     let anyChanged = false;
     const fixedChildren = data.children.map((child, i) => {

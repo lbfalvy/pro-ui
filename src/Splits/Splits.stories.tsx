@@ -1,16 +1,16 @@
-// Generated with util/create-component.js
 import React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import Splits, { getSplitData, isSplitData } from "./Splits";
-import fixSplitSizes, { fixSplitTree } from './fixSplitData';
-import { ResizeHandler, Side, SplitChild, SplitData, SplitHandler, SplitSubdata } from "./Splits.types";
+import Splits, { getSplitData } from "./Splits";
+import { fixSplitSizes } from './fixSplitData';
+import { SplitData, TabSplitsProps } from "./Splits.types";
 import { upCastRef, useDimensions } from "../utils";
 import SplitsLayer from './SplitsLayer';
-import Tabs, { removeTab } from '../Tabs';
-import { ID, TabData, TabDrag } from '../Tabs/Tabs.types';
-import { editSplitData, subdivideSplit, resizeSplit, traverseSplitTree, transposeSplitTree } from './editSplitData';
-import produce from "immer";
+import Tabs from '../Tabs';
+import { TabData, TabDrag } from '../Tabs/Tabs.types';
+import { resizeSplit, transposeSplitTree } from './editSplitData';
+import { moveTab, splitWithTab, TabSplits } from './TabSplits';
+import { ID, Side } from "../types";
 
 export default {
     title: "Splits",
@@ -98,64 +98,37 @@ const tabSplitDemo: SplitData<TabData[]> = getSplitData( 'x', [{
 }])
 
 type TabDragEvent = {
-    type: 'tabDrag',
-    details: [number[], number, ID, number[]]
+    type: 'move',
+    details: Parameters<TabSplitsProps['onMove']>
 }
 type ResizeEvent = {
     type: 'resize',
-    details: [number[], number, number]
+    details: Parameters<TabSplitsProps['onResize']>
 }
 type SplitEvent = {
     type: 'split',
-    details: [number[], Side, TabDrag<number[]>]
+    details: Parameters<TabSplitsProps['onSplit']>
 }
 type Cell = TabData<number[]>[];
 
 export const Splittable = () => {
     const minSize = 30;
     const [ref, dim] = useDimensions();
-    const [data, event] = React.useReducer((state: SplitSubdata<Cell>, ev: ResizeEvent|SplitEvent|TabDragEvent) => {
+    const [data, event] = React.useReducer((state: Cell | SplitData<Cell>, ev: ResizeEvent|SplitEvent|TabDragEvent) => {
         let temp = state;
-        if (ev.type == 'tabDrag') {
-            const [to, insert, id, [...from]] = ev.details;
-            temp = produce(temp, draft => {
-                const tabs = traverseSplitTree(draft, from) as Cell;
-                const item = removeTab(tabs, id);
-                const target = traverseSplitTree(draft, to) as Cell;
-                target.splice(insert, 0, item);
-            });
-            temp = fixSplitTree(temp, cell => 0 < cell.length);
-        } else if (ev.type == 'split') {
-            const [target, side, drag] = ev.details;
-            const { id, metadata } = drag;
-            let item: TabData<number[]>;
-            temp = editSplitData(temp, metadata, leaf => {
-                const newLeaf = [...leaf as TabData<number[]>[]];
-                item = removeTab(newLeaf, id);
-                return newLeaf;
-            });
-            const after = side === 'left' || side === 'bottom';
-            temp = subdivideSplit(temp, target, side, [item]);
-            temp = fixSplitTree(temp, cell => 0 < cell.length);
-        } else if (ev.type == 'resize') temp = resizeSplit(state as SplitData<Cell>, ...ev.details);
+        if (ev.type == 'move') temp = moveTab(temp, ...ev.details);
+        else if (ev.type == 'split') temp = splitWithTab(temp, ...ev.details);
+        else if (ev.type == 'resize') temp = resizeSplit(temp as SplitData<Cell>, ...ev.details);
         return fixSplitSizes(temp, minSize, { x: dim.width, y: dim.height });
     }, tabSplitDemo);
-    const resize: ResizeHandler = (...details) => event({ type: 'resize', details });
-    const split: SplitHandler<TabDrag<number[]>, 'TAB'> = (path, side, item) => {
-        event({ type: 'split', details: [path, side, item] });
-    };
     return <DndProvider backend={HTML5Backend}>
-        <div ref={upCastRef(ref)} style={{ height: '300px' }} >
-            <SplitsLayer/>
-            <Splits<'TAB', TabDrag<number[]>> minSize={minSize}
-                splitTypes={['TAB']} onResize={resize}
-                onSplit={split}>
-                {transposeSplitTree(data, null, (path, tabs) => <>
-                    <Tabs onMove={(...tab) => event({ type: 'tabDrag', details: [path, ...tab]})}>
-                        {tabs.map((tab) => ({ ...tab, metadata: path }))}
-                    </Tabs>
-                </>)}
-            </Splits>
+        <div ref={upCastRef(ref)} style={{ height: '300px' }}>
+            <TabSplits minSize={minSize}
+                onResize={(...details) => event({ type: 'resize', details })}
+                onSplit={(...details) => event({ type: 'split', details })}
+                onMove={(...details) => event({ type: 'move', details })}>
+                {data}
+            </TabSplits>
         </div>
     </DndProvider>
 }

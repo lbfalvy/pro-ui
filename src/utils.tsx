@@ -86,13 +86,6 @@ export function usePointer(): () => { x: number, y: number } {
     return () => mousePosition;
 }
 
-export function horizontalScroll(ev: React.WheelEvent<HTMLDivElement>): void {
-    console.log('Wheel event fired', ev.deltaY, ev.currentTarget.scrollLeft);
-    ev.preventDefault();
-    ev.stopPropagation();
-    ev.currentTarget.scrollLeft += ev.deltaY;
-}
-
 export function constrain(lower: number, value: number, upper: number) {
     // If the constraints cannot be satisfied, always return their average
     if (upper < lower) return (upper + lower) / 2;

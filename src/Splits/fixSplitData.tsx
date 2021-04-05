@@ -1,7 +1,7 @@
 import { XYCoord } from "react-dnd";
 import { maxIndex, sum } from "../utils";
 import { isSplitData } from "./Splits";
-import { SplitChild, SplitData, SplitSubdata } from "./Splits.types";
+import { SplitChild, SplitData } from "./Splits.types";
 
 /**
  * Makes sure that
@@ -34,7 +34,7 @@ function fixRatios(ratios: readonly (number | undefined)[], minimum: number): re
 
 interface HalfFixedSplitChild<T> {
     ratio: number,
-    content: SplitSubdata<T>
+    content: T | SplitData<T>
 }
 
 /**
@@ -79,24 +79,25 @@ function getChildBox(
 /**
  * Fixes the sizes in a split tree to negate problems like negative width that
  * emerge from naiive implementations of other transformations.
+ * @category Splits
  * @param def 
  * @param minSize Minimum allowed size of a split
  * @param box Bounding box of `def`
  * @param border Border width
  */
-export default function fixSplitSizes<T>(
+export function fixSplitSizes<T>(
     def: SplitData<T>,
     minSize: number,
-    box: XYCoord,
+    box: { x: number, y: number },
     border?: number
 ): SplitData<T>;
-export default function fixSplitSizes<T>(
+export function fixSplitSizes<T>(
     def: T,
     minSize: number,
-    box: XYCoord,
+    box: { x: number, y: number },
     border?: number
 ): T;
-export default function fixSplitSizes<T>(
+export function fixSplitSizes<T>(
     def: SplitData<T>,
     minSize: number,
     box: XYCoord,
@@ -163,11 +164,12 @@ function inlineAligned<T>(
 
 /**
  * Inline children of the same axis and remove empty containers from the tree.
+ * @category Splits
  * @param def 
  */
 export function fixSplitTree<T>(def: SplitData<T>, filterLeaves?: (t: T) => boolean): SplitData<T>
-export function fixSplitTree<T>(def: SplitSubdata<T>, filterLeaves?: (t: T) => boolean): SplitSubdata<T>
-export function fixSplitTree<T>(def: SplitSubdata<T>, filterLeaves: (t: T) => boolean = () => true): SplitSubdata<T> {
+export function fixSplitTree<T>(def: T | SplitData<T>, filterLeaves?: (t: T) => boolean): T | SplitData<T>
+export function fixSplitTree<T>(def: T | SplitData<T>, filterLeaves: (t: T) => boolean = () => true): T | SplitData<T> {
     // There's nothing to fix on a ReactNode
     if (!isSplitData<T>(def)) {
         return def;

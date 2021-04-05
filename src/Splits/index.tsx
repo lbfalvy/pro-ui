@@ -1,15 +1,11 @@
-import { editSplitData, resizeSplit, subdivideSplit, transposeSplitTree, traverseSplitTree } from "./editSplitData";
-import fixSplitSizes, { fixSplitTree } from "./fixSplitData";
-import Splits from './Splits';
-import SplitsLayer from './SplitsLayer';
+import Splits from "./Splits";
 
 export {
-    Splits as default,
-    // General tree manipulator functions
-    traverseSplitTree, editSplitData, transposeSplitTree,
-    // alter ratios
-    resizeSplit, fixSplitSizes,
-    // alter topology
-    subdivideSplit, fixSplitTree,
-    SplitsLayer
-};
+    editSplitData, transposeSplitTree, traverseSplitTree,
+    resizeSplit, subdivideSplit
+} from "./editSplitData";
+export { fixSplitSizes, fixSplitTree } from "./fixSplitData";
+export { default, getSplitData, isSplitData } from './Splits';
+export { default as SplitsLayer } from './SplitsLayer';
+export { moveTab, splitWithTab, TabSplits } from "./TabSplits";
+export { SplitChild, SplitData, SplitsProps, TabSplitsProps } from "./Splits.types";

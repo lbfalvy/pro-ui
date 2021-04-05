@@ -1,14 +1,23 @@
 // Generated with util/create-component.js
 import React from "react";
 
-import { ID, TabsProps, TabDrag, TabData } from "./Tabs.types";
+import { TabsProps, TabDrag, TabData } from "./Tabs.types";
 
-import ScrollArea from 'react-scrollbar';
 import "./Tabs.scss";
 import { useDrag, useDrop } from "react-dnd";
-import { classList, horizontalScroll, mergeRefs } from "../utils";
+import { classList, mergeRefs } from "../utils";
+import { ID } from "../types";
 
-function Tabs<T>({ children, onMove, active: activeDefault }: TabsProps<T>): React.ReactElement {
+/**
+ * Tabbed view component with the ability to reorder tabs by drag and drop and
+ * to move them across containers. Use {@link removeTab} in an appropriate
+ * event handler to achieve this functionality.
+ * @category Tabs
+ * @template T type of the metadata field
+ * @param param0
+ * @returns 
+ */
+function Tabs<T>({ children, onMove, active: activeDefault, onSelect }: TabsProps<T>): React.ReactElement {
     const [active, setActive] = React.useState<ID | undefined>(activeDefault);
     if (!children.some(({id}) => id == active) && children.length) setActive(children[0].id);
     const [over, drop] = useDrop<TabDrag<T>, void, boolean>({
@@ -25,18 +34,17 @@ function Tabs<T>({ children, onMove, active: activeDefault }: TabsProps<T>): Rea
             'over': over
         })} onWheel={ev => {
             ev.preventDefault();
-            console.log(ev.defaultPrevented);
-            ev.currentTarget.scrollBy({
-                behavior: 'auto',
-                left: ev.deltaY * 10
-            });
+            ev.currentTarget.scrollBy({ behavior: 'auto', left: ev.deltaY * 10 });
         }}>
             <div key="height-holder" className="height-holder">
                 If you see this text, CSS is broken.
             </div>
             {children.map(({id, title, metadata}, idx) => <>
                 <Tab<T> key={id} id={id} metadata={metadata!} active={id == active}
-                    onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => setActive(id)}>
+                    onDrop={(id, meta) => onMove?.(idx, id, meta)} onClick={() => {
+                        onSelect?.(id);
+                        setActive(id);
+                    }}>
                     {title}
                 </Tab>
             </>)}
@@ -86,6 +94,15 @@ function Tab<T>({ id, metadata, children, active, onDrop, onClick }: TabProps<T>
 
 export default Tabs;
 
+/**
+ * Removes and returns the tab with the given ID from the collection. Use this
+ * to retrieve the dragged tab and insert it in the new location with a simple
+ * `data.splice(0, tab)` to execute a tab drag action.
+ * @category Tabs
+ * @param tabs Tabs state
+ * @param id Tab to be removed
+ * @returns The removed tab
+ */
 export function removeTab<T>(tabs: TabData<T>[], id: ID): TabData<T> | undefined {
     return tabs.splice(tabs.findIndex(el => el.id === id), 1)[0]
 }

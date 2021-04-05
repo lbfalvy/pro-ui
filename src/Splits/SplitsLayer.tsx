@@ -3,17 +3,25 @@ import { useDragLayer, XYCoord } from "react-dnd";
 import { addXY, classList } from "../utils";
 import { ResizeItem } from "./Splits.types";
 
-const SplitsLayer: React.FC<{}> = () => {
+/**
+ * A component to attach position data to {@link Splits} borders while
+ * dragging. It also renders a nice constrained overlay blue line.
+ * @category Splits
+ * @returns 
+ */
+function SplitsLayer(): React.ReactElement | null {
     const [
+        type,
         item,
         start,
         delta
     ] = useDragLayer(monitor => [
+        monitor.getItemType(),
         monitor.getItem() as ResizeItem | null,
         monitor.getInitialSourceClientOffset(),
         monitor.getDifferenceFromInitialOffset()
     ]);
-    if (!item || !start || !delta) return null;
+    if (!item || !start || !delta || type !== 'SPLIT_RESIZE') return null;
     const drawPos = addXY(start, delta);
     const otherAxis = item.axis == 'x' ? 'y' : 'x';
     drawPos[otherAxis] = start[otherAxis];
