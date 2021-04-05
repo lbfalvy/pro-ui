@@ -1,0 +1,253 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@lbfalvy/pro-ui</title>
+	<meta name="description" content="Documentation for @lbfalvy/pro-ui">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@lbfalvy/pro-ui</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>@lbfalvy/pro-ui</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#pro-ui-components" id="pro-ui-components" style="color: inherit; text-decoration: none;">
+					<h1>Pro UI Components</h1>
+				</a>
+				<p><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License: MIT"></a></p>
+				<p>This package contains components to build UIs for experts. All components lend
+					themselves to modification by the user. To align with this principle, you
+				should store the user preferences somewhere, at least in LocalStorage.</p>
+				<p>All components use react-dnd, so you have to wrap them in</p>
+				<pre><code class="language-JSX"><span style="color: #000000">&lt;DndProvider backend={HTML5Backend}&gt;</span>
+<span style="color: #000000">  ...</span>
+<span style="color: #000000">&lt;/DndProvider&gt;</span>
+</code></pre>
+				<p>instances. You don&#39;t have to have a single big DndProvider, but you have to
+					make sure that every source and the corresponding target are under the same
+				DndProvider.</p>
+				<a href="#components" id="components" style="color: inherit; text-decoration: none;">
+					<h2>Components</h2>
+				</a>
+				<a href="#tabs" id="tabs" style="color: inherit; text-decoration: none;">
+					<h3>Tabs</h3>
+				</a>
+				<p>A tabbed container that allows to reorganise tabs with drag-and-drop, even
+				between containers. It takes an array of tab definitions as its children.</p>
+				<pre><code class="language-TS"><span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">TabData</span><span style="color: #000000">&lt;</span><span style="color: #267F99">T</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">  </span><span style="color: #001080">id</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">number</span>
+<span style="color: #000000">  </span><span style="color: #001080">title</span><span style="color: #000000">: </span><span style="color: #267F99">ReactNode</span>
+<span style="color: #000000">  </span><span style="color: #001080">children</span><span style="color: #000000">: </span><span style="color: #267F99">ReactNode</span>
+<span style="color: #000000">  </span><span style="color: #001080">metadata</span><span style="color: #000000">?: </span><span style="color: #267F99">T</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>It is important that <code>id</code> be unique with respect to any group of <code>Tabs</code>
+					elements within which movement is allowed because it is used for the <code>key</code>
+					prop of tabs and contents alike. <code>id</code> and <code>metadata</code> together serve to identify
+					the tab to your own code, so you should probably encode how to locate the
+				<code>Tabs</code> element in <code>metadata</code>.</p>
+				<p>Usage:</p>
+				<pre><code class="language-JSX"><span style="color: #000000">&lt;Tabs onMove={(position: number, id: string | number, metadata: any) =&gt; void}&gt;</span>
+<span style="color: #000000">  {[</span>
+<span style="color: #000000">    {</span>
+<span style="color: #000000">      id: 0,</span>
+<span style="color: #000000">      title: &#039;Title of first tab&#039;,</span>
+<span style="color: #000000">      children: &lt;div&gt;Contents of first tab&lt;/div&gt;,</span>
+<span style="color: #000000">      metadata: { some: &#039;data&#039; }</span>
+<span style="color: #000000">    },</span>
+<span style="color: #000000">    {</span>
+<span style="color: #000000">      id: &#039;foo&#039;,</span>
+<span style="color: #000000">      title: &lt;&gt;Title of &lt;em&gt;another&lt;/em&gt; tab&lt;/&gt;,</span>
+<span style="color: #000000">      children: &lt;div&gt;Components of another tab&lt;/div&gt;</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">  ]}</span>
+<span style="color: #000000">&lt;/Tabs&gt;</span>
+</code></pre>
+				<p><code>id</code> can be either a string or a number. When the user moves a tab, <code>onMove</code> is
+				called on the target container, with the following arguments:</p>
+				<ul>
+					<li>the position the tab should be moved to</li>
+					<li>the ID of the moved tab</li>
+					<li>the metadata of the moved tab</li>
+				</ul>
+				<p>The children won&#39;t be moved by themselves, you have to store your children in
+					an appropriate structure and handle the onMove event in the parent component.
+				For an example of how this could be done, see the story in the docs.</p>
+				<a href="#splits" id="splits" style="color: inherit; text-decoration: none;">
+					<h3>Splits</h3>
+				</a>
+				<p>It is a container made of a tree of flexboxes, inspired by Visual Studio and
+				the Unity editor. It takes a tree of split definitions as its children</p>
+				<pre><code class="language-TS"><span style="color: #0000FF">interface</span><span style="color: #000000"> </span><span style="color: #267F99">SplitData</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">axis</span><span style="color: #000000">: </span><span style="color: #A31515">&#039;x&#039;</span><span style="color: #000000"> | </span><span style="color: #A31515">&#039;y&#039;</span>
+<span style="color: #000000">  </span><span style="color: #001080">children</span><span style="color: #000000">: {</span>
+<span style="color: #000000">    </span><span style="color: #001080">ratio</span><span style="color: #000000">: </span><span style="color: #267F99">number</span>
+<span style="color: #000000">    </span><span style="color: #001080">content</span><span style="color: #000000">: </span><span style="color: #267F99">SplitData</span><span style="color: #000000"> | </span><span style="color: #267F99">ReactNode</span>
+<span style="color: #000000">  }[]</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>The component itself is called like so</p>
+				<pre><code class="language-TSX"><span style="color: #800000">&lt;</span><span style="color: #267F99">Splits</span><span style="color: #000000"> </span><span style="color: #FF0000">minSize</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">number</span><span style="color: #0000FF">}</span><span style="color: #000000"> </span><span style="color: #FF0000">splitTypes</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">string</span><span style="color: #000000">|</span><span style="color: #001080">string</span><span style="color: #000000FF">[]</span><span style="color: #0000FF">}</span>
+<span style="color: #000000">  </span><span style="color: #FF0000">onResize</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #000000FF">(</span><span style="color: #001080">path</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #267F99">number</span><span style="color: #000000FF">[], </span><span style="color: #001080">after</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #267F99">number</span><span style="color: #000000FF">, </span><span style="color: #001080">amount</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #267F99">number</span><span style="color: #000000FF">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> </span><span style="color: #0000FF">void}</span>
+<span style="color: #000000">  </span><span style="color: #FF0000">onSplit</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #000000FF">(</span><span style="color: #001080">path</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #267F99">number</span><span style="color: #000000FF">[], </span><span style="color: #001080">side</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #A31515">&#039;top&#039;</span><span style="color: #000000">|</span><span style="color: #A31515">&#039;left&#039;</span><span style="color: #000000">|</span><span style="color: #A31515">&#039;bottom&#039;</span><span style="color: #000000">|</span><span style="color: #A31515">&#039;right&#039;</span><span style="color: #000000FF">, </span><span style="color: #001080">item</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #267F99">any</span><span style="color: #000000FF">, </span><span style="color: #001080">type</span><span style="color: #000000">:</span><span style="color: #000000FF"> </span><span style="color: #267F99">string</span><span style="color: #000000FF">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> </span><span style="color: #0000FF">void}</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">{</span><span style="color: #001080">children</span><span style="color: #000000FF">: </span><span style="color: #001080">SplitData</span><span style="color: #0000FF">}</span>
+<span style="color: #800000">&lt;/</span><span style="color: #267F99">Splits</span><span style="color: #800000">&gt;</span>
+</code></pre>
+				<p>There are a number of functions to help with transforming the tree, for a complete list, see the docs.</p>
+				<p>Documentation: <a href="https://lbfalvy.github.io/pro-ui/docs">https://lbfalvy.github.io/pro-ui/docs</a>
+				See it in action at <a href="https://lbfalvy.github.io/pro-ui">https://lbfalvy.github.io/pro-ui</a></p>
+				<p>Library created from <a href="https://github.com/HarveyD/react-component-library">This template by HarveyD</a></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/splitchild.html" class="tsd-kind-icon">Split<wbr>Child</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/splitdata.html" class="tsd-kind-icon">Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/splitsprops.html" class="tsd-kind-icon">Splits<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/tabdata.html" class="tsd-kind-icon">Tab<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tabsplitsprops.html" class="tsd-kind-icon">Tab<wbr>Splits<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/tabsprops.html" class="tsd-kind-icon">Tabs<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#axis" class="tsd-kind-icon">Axis</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#id" class="tsd-kind-icon">ID</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#side" class="tsd-kind-icon">Side</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#splits" class="tsd-kind-icon">Splits</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#splitslayer" class="tsd-kind-icon">Splits<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#tabsplits" class="tsd-kind-icon">Tab<wbr>Splits</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#tabs" class="tsd-kind-icon">Tabs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#editsplitdata" class="tsd-kind-icon">edit<wbr>Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#fixsplitsizes" class="tsd-kind-icon">fix<wbr>Split<wbr>Sizes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#fixsplittree" class="tsd-kind-icon">fix<wbr>Split<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#getsplitdata" class="tsd-kind-icon">get<wbr>Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#issplitdata" class="tsd-kind-icon">is<wbr>Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#movetab" class="tsd-kind-icon">move<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#removetab" class="tsd-kind-icon">remove<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#resizesplit" class="tsd-kind-icon">resize<wbr>Split</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#splitwithtab" class="tsd-kind-icon">split<wbr>With<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#subdividesplit" class="tsd-kind-icon">subdivide<wbr>Split</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#transposesplittree" class="tsd-kind-icon">transpose<wbr>Split<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#traversesplittree" class="tsd-kind-icon">traverse<wbr>Split<wbr>Tree</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

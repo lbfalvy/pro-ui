@@ -1,0 +1,398 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>TabSplitsProps | @lbfalvy/pro-ui</title>
+	<meta name="description" content="Documentation for @lbfalvy/pro-ui">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@lbfalvy/pro-ui</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">@lbfalvy/pro-ui</a>
+				</li>
+				<li>
+					<a href="tabsplitsprops.html">TabSplitsProps</a>
+				</li>
+			</ul>
+			<h1>Interface TabSplitsProps</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Properties to the <a href="../modules.html#tabsplits">TabSplits</a> component</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">TabSplitsProps</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsplitsprops.html#children" class="tsd-kind-icon">children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsplitsprops.html#minsize" class="tsd-kind-icon">min<wbr>Size</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsplitsprops.html#onmove" class="tsd-kind-icon">on<wbr>Move</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsplitsprops.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsplitsprops.html#onsplit" class="tsd-kind-icon">on<wbr>Split</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="children" class="tsd-anchor"></a>
+					<h3>children</h3>
+					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <a href="tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="splitdata.html" class="tsd-signature-type" data-tsd-kind="Interface">SplitData</a><span class="tsd-signature-symbol">&lt;</span><a href="tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/f378f39/src/Splits/Splits.types.ts#L113">Splits/Splits.types.ts:113</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The split data tree which might only consist of a single leaf.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="minsize" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> min<wbr>Size</h3>
+					<div class="tsd-signature tsd-kind-icon">min<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/f378f39/src/Splits/Splits.types.ts#L108">Splits/Splits.types.ts:108</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The minimum allowed size of a split. Smaller splits than this will grow
+								up to the smaller of this limit or their equal fraction of the
+							container.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="onmove" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Move</h3>
+					<div class="tsd-signature tsd-kind-icon">on<wbr>Move<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>to<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a>, from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/f378f39/src/Splits/Splits.types.ts#L101">Splits/Splits.types.ts:101</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Called when a tab is dropped on this container. Pass the arguments as
+							they are to <a href="../modules.html#movetab">moveTab</a>.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>to<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, index<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a>, from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>to: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+											<li>
+												<h5>index: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>id: <a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a></h5>
+											</li>
+											<li>
+												<h5>from: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="onresize" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Resize</h3>
+					<div class="tsd-signature tsd-kind-icon">on<wbr>Resize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, after<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/f378f39/src/Splits/Splits.types.ts#L88">Splits/Splits.types.ts:88</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Called when a cell is resized. You should pass the arguments as they are
+								to <a href="../modules.html#resizesplit">resizeSplit</a> and then call <a href="../modules.html#fixsplitsizes">fixSplitSizes</a> to eliminate
+							negative sizes or other problems.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, after<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>path: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+											<li>
+												<h5>after: <span class="tsd-signature-type">number</span></h5>
+											</li>
+											<li>
+												<h5>amount: <span class="tsd-signature-type">number</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="onsplit" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Split</h3>
+					<div class="tsd-signature tsd-kind-icon">on<wbr>Split<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, side<span class="tsd-signature-symbol">: </span><a href="../modules.html#side" class="tsd-signature-type" data-tsd-kind="Type alias">Side</a>, id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a>, from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/f378f39/src/Splits/Splits.types.ts#L95">Splits/Splits.types.ts:95</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Called when a tab is dropped on a split drop area. Pass the arguments as
+								they are to <a href="../modules.html#splitwithtab">splitWithTab</a>, then call <a href="../modules.html#fixsplitsizes">fixSplitSizes</a> to
+							avoid negative sizes and similar issues.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, side<span class="tsd-signature-symbol">: </span><a href="../modules.html#side" class="tsd-signature-type" data-tsd-kind="Type alias">Side</a>, id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a>, from<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>path: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+											<li>
+												<h5>side: <a href="../modules.html#side" class="tsd-signature-type" data-tsd-kind="Type alias">Side</a></h5>
+											</li>
+											<li>
+												<h5>id: <a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a></h5>
+											</li>
+											<li>
+												<h5>from: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="splitchild.html" class="tsd-kind-icon">Split<wbr>Child</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="splitdata.html" class="tsd-kind-icon">Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="splitsprops.html" class="tsd-kind-icon">Splits<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="tabdata.html" class="tsd-kind-icon">Tab<wbr>Data</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="tabsplitsprops.html" class="tsd-kind-icon">Tab<wbr>Splits<wbr>Props</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabsplitsprops.html#children" class="tsd-kind-icon">children</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabsplitsprops.html#minsize" class="tsd-kind-icon">min<wbr>Size</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabsplitsprops.html#onmove" class="tsd-kind-icon">on<wbr>Move</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabsplitsprops.html#onresize" class="tsd-kind-icon">on<wbr>Resize</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="tabsplitsprops.html#onsplit" class="tsd-kind-icon">on<wbr>Split</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="tabsprops.html" class="tsd-kind-icon">Tabs<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#axis" class="tsd-kind-icon">Axis</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#id" class="tsd-kind-icon">ID</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../modules.html#side" class="tsd-kind-icon">Side</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#splits" class="tsd-kind-icon">Splits</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#splitslayer" class="tsd-kind-icon">Splits<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#tabsplits" class="tsd-kind-icon">Tab<wbr>Splits</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#tabs" class="tsd-kind-icon">Tabs</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#editsplitdata" class="tsd-kind-icon">edit<wbr>Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#fixsplitsizes" class="tsd-kind-icon">fix<wbr>Split<wbr>Sizes</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#fixsplittree" class="tsd-kind-icon">fix<wbr>Split<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#getsplitdata" class="tsd-kind-icon">get<wbr>Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#issplitdata" class="tsd-kind-icon">is<wbr>Split<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#movetab" class="tsd-kind-icon">move<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#removetab" class="tsd-kind-icon">remove<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#resizesplit" class="tsd-kind-icon">resize<wbr>Split</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../modules.html#splitwithtab" class="tsd-kind-icon">split<wbr>With<wbr>Tab</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#subdividesplit" class="tsd-kind-icon">subdivide<wbr>Split</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#transposesplittree" class="tsd-kind-icon">transpose<wbr>Split<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../modules.html#traversesplittree" class="tsd-kind-icon">traverse<wbr>Split<wbr>Tree</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
