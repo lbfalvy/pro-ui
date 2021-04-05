@@ -38,7 +38,7 @@ const demoData: SplitData = getSplitData('x', [{
 }]);
 export const Static = () => {
     return <DndProvider backend={HTML5Backend}>
-        <div style={{ height: '300px' }}>
+        <div style={{ flex: '1 1 100%' }}>
             <Splits >
                 {demoData}
             </Splits>
@@ -52,7 +52,7 @@ export const Resizable = () => {
         return resizeSplit(state, ...move);
     }, demoData);
     return <DndProvider backend={HTML5Backend}>
-        <div style={{ height: '300px'}}>
+        <div style={{ flex: '1 1 100%' }}>
             <SplitsLayer/>
             <Splits minSize={minSize} onResize={(node, after, amount) => drag([node, after, amount])}>
                 {data}
@@ -122,7 +122,7 @@ export const Splittable = () => {
         return fixSplitSizes(temp, minSize, { x: dim.width, y: dim.height });
     }, tabSplitDemo);
     return <DndProvider backend={HTML5Backend}>
-        <div ref={upCastRef(ref)} style={{ height: '300px' }}>
+        <div ref={upCastRef(ref)} style={{ flex: '1 1 100%' }}>
             <TabSplits minSize={minSize}
                 onResize={(...details) => event({ type: 'resize', details })}
                 onSplit={(...details) => event({ type: 'split', details })}

@@ -12,7 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "strict": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": [
@@ -21,5 +22,14 @@
     "storybook-static",
     "src/**/*.stories.tsx",
     "src/**/*.test.tsx"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "exclude": "**/node_modules/**",
+    "externalPattern": "**/node_modules/**",
+    "excludeExternals": true,
+    "out": "storybook-static/docs"
+  }
 }

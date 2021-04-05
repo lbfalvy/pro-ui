@@ -65,3 +65,23 @@
  *
  * Will add a new dropdown in your toolbar with options light and dark.
  **/
+
+export const decorators = [
+    (Story) => <div style={{
+        position: 'absolute', padding: '10px', boxSizing: 'border-box',
+        top: 0, left: 0, height: '100%', width: '100%',
+        display: 'flex', flexDirection: 'column',
+    }}>
+        <div style={{ flex: '1 1 100%', display: 'flex', flexDirection: 'column' }}>
+            <Story />
+        </div>
+        <div style={{ flex: '0 0 1em' }}>
+            <a href='docs/'>Read the docs.</a>
+        </div>
+    </div>,
+];
+export const parameters = {
+    viewport: {
+        disable: true
+    }
+}
