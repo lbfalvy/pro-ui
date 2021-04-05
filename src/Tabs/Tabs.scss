@@ -4,18 +4,18 @@
 
 .tabs-container {
   @include font-defaults;
-  $inactive-bg: #d2d2d2;
-  $tab-border: #c2c2c2;
-  $bg: #e2e2e2;
+  $inactive-bg: #444;
+  $tab-border: #333;
+  $bg: #222;
   $over-bg: #fff;
   $hover-bg: #eaeaea;
-  $accent: #99f;
+  $accent: #2b2ba7;
   display: flex;
   flex-direction: column;
   background: $bg;
-  color: $harvey-green;
+  color: #fff;
   .tabs-container-heads {
-    $heads-bg: #c2c2c2;
+    $heads-bg: #333;
     background: $heads-bg;
     flex: 0 0 1;
     white-space: nowrap;

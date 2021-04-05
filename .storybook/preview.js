@@ -66,6 +66,8 @@
  * Will add a new dropdown in your toolbar with options light and dark.
  **/
 
+import { themes } from '@storybook/theming';
+
 export const decorators = [
     (Story) => <div style={{
         position: 'absolute', padding: '10px', boxSizing: 'border-box',
@@ -76,12 +78,16 @@ export const decorators = [
             <Story />
         </div>
         <div style={{ flex: '0 0 1em' }}>
-            <a href='docs/'>Read the docs.</a>
+            <a href='docs/' style={{ color: 'yellow' }}>Read the docs.</a>
         </div>
     </div>,
 ];
+
 export const parameters = {
     viewport: {
         disable: true
+    },
+    docs: {
+        theme: themes.dark
     }
 }

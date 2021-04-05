@@ -19,13 +19,14 @@
   $resize-handle-size: 10px;
   height: 100%;
   color: $harvey-green;
-  background: #ccc;
+  background: #222;
+  box-sizing: border-box;
   & > * {
     height: 100%;
     &.splits-subsplit {
       position: relative;
       flex: 1 1;
-      background: #666;
+      background: #333;
       display: flex;
       &.splits-y {
         flex-direction: column;
@@ -76,24 +77,30 @@
       box-sizing: border-box;
       border: 5px solid #444;
       background: solid #aaa;
-      width: 10px;
-      height: 10px;
+      width: 20px;
+      height: 20px;
+    }
+    > *:-moz-drag-over {
+      border-color: blue;
     }
     .splits-overlay-top {
       grid-area: top;
-      border-bottom-color: blue;
+      border-top-color: blue;
     }
     .splits-overlay-left {
       grid-area: left;
-      border-right-color: blue;
+      border-left-color: blue;
     }
     .splits-overlay-right {
       grid-area: right;
-      border-left-color: blue;
+      border-right-color: blue;
     }
     .splits-overlay-bottom {
       grid-area: bottom;
-      border-top-color: blue;
+      border-bottom-color: blue;
     }
+  }
+  &.splits-highlight {
+    border: 1px solid blue;
   }
 }

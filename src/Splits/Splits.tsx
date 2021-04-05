@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import { ResizeItem, SplitChild, SplitData, SplitsProps } from "./Splits.types";
 
 import "./Splits.scss";
-import { classList, mergeRefs, useDimensions, usePointer } from "../utils";
+import { classList, mergeRefs, upCastRef, useDimensions, usePointer } from "../utils";
 import { useDrag, useDrop } from "react-dnd";
 import { Axis, Side } from "../types";
 
@@ -30,6 +30,7 @@ function Splits<T>({
     const splitTypesArray = typeof splitTypes == 'string' ? [splitTypes] : splitTypes ?? [];
     const [shouldShowSplit, drop] = useDrop({
         accept: splitTypesArray,
+        canDrop: () => false,
         collect: monitor => {
             const type = monitor.getItemType();
             return monitor.isOver()
@@ -38,12 +39,25 @@ function Splits<T>({
                     || (splitTypes as string[] )?.includes(type) )
         }
     }, [splitTypes]);
-    return <div ref={drop} className='splits-container'>
+    const [shouldHighlightFrame, accept] = useDrop({
+        accept: splitTypesArray,
+        collect: monitor => {
+            const type = monitor.getItemType();
+            return monitor.isOver()/*
+                && typeof type == 'string'
+                && ( splitTypes == type
+                    || (splitTypes as string[] )?.includes(type) )*/
+        }
+    })
+    return <div ref={drop} className={classList({
+        'splits-container': true,
+        'splits-highlight': shouldHighlightFrame
+    })}>
         {isSplitData(children)
             ? <SplitsContainer {...children} splitTypes={splitTypesArray} 
                 onResize={onResize} onSplit={onSplit} minSize={_minSize} />
             : <div>{children}</div>}
-        {shouldShowSplit ? <SplitOverlay<T> onSplit={onSplit} splitTypes={splitTypesArray} /> : null}
+        {shouldShowSplit ? <SplitOverlay<T> onSplit={onSplit} overFeedback={accept} splitTypes={splitTypesArray} /> : null}
     </div>
 }
 
@@ -131,12 +145,13 @@ const ResizeHandle: React.FC<HandleProps> = ({ axis, onResize }) => {
 interface SplitOverlayProps<T> {
     splitTypes: string[]
     baseIndex?: number
+    overFeedback: React.Ref<HTMLElement>
     onSplit?: (path: number[], side: Side, item: T, type: string) => void;
 }
 function SplitOverlay<T>({
-    splitTypes, baseIndex, onSplit
+    splitTypes, baseIndex, onSplit, overFeedback: ref
 }: SplitOverlayProps<T>): React.ReactElement {
-    return <div className='splits-overlay'>{sides.map(side => <>
+    return <div ref={upCastRef(ref)} className='splits-overlay'>{sides.map(side => <>
         <SplitArea<T> side={side} splitTypes={splitTypes}
             onSplit={(item, type) => onSplit?.(baseIndex ? [baseIndex] : [], side, item, type)} />
     </>)}</div>
