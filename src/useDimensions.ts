@@ -13,7 +13,7 @@ const defaultDimensions: Dimensions = {
 }
 const defaultDimensionsString = JSON.stringify(defaultDimensions);
 
-export function useDimensions<T extends HTMLElement>(log = false): [React.Ref<T>, Dimensions, boolean] {
+export function useDimensions<T extends HTMLElement>(): [React.Ref<T>, Dimensions, boolean] {
     const ref = React.useRef<T>(null);
     const watcher = React.useRef<HTMLDivElement | null>(null);
     const [dimensions, setDimensions] = React.useState<string>(defaultDimensionsString);
@@ -32,9 +32,6 @@ export function useDimensions<T extends HTMLElement>(log = false): [React.Ref<T>
         const data = ref.current.getBoundingClientRect();
         watcher.current.style.top = `${data.top-1}px`;
         watcher.current.style.left = `${data.left-1}px`;
-        if (log) {
-            console.log('Dimensions', data, '\n', 'WatcherDimensions', watcher.current.getBoundingClientRect());
-        }
         if (data) setDimensions(JSON.stringify(data));
     }, [ref.current, watcher.current]);
     React.useEffect(() => {
@@ -42,31 +39,25 @@ export function useDimensions<T extends HTMLElement>(log = false): [React.Ref<T>
         recalculate();
         const resize = new ResizeObserver(recalculate);
         resize.observe(ref.current);
-        if (log) console.log('Resize observer', resize);
-        return () => {
-            resize.disconnect();
-            if (log) console.log('Cleaning up resize observer');
-        }
+        return () => resize.disconnect();
     }, [ref.current, recalculate]);
     React.useEffect(() => {
         if (!watcher.current) return;
         // Detect resizing the watcher
         const resize = new ResizeObserver(recalculate);
         resize.observe(watcher.current);
-        // Detect movement
+        return () => resize.disconnect();
+    }, [watcher.current, recalculate]);
+    // Detect movement
+    React.useEffect(() => {
+        if (!watcher.current) return;
         const move = new IntersectionObserver(ev => {
-            if (log) console.log('Move detected', ev, ref.current);
             if (Math.abs(ev[0].intersectionRatio - 0.25) > 0.0001) return;
             recalculate();
         }, { root: ref.current });
         move.observe(watcher.current);
-        if (log) console.log('Intersection observer', move, resize);
-        return () => {
-            resize.disconnect();
-            move.disconnect();
-            if (log) console.log('Cleaning up intersection observer');
-        }
-    })
+        return () => move.disconnect();
+    });
     const ret = React.useMemo(() => JSON.parse(dimensions), [dimensions]);
     return [upCastRef(ref), ret, ret.width > 0 && ret.height > 0];
 }
