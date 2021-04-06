@@ -37,7 +37,7 @@ const MenuCtx = React.createContext<{
         const div = getOrCreateDiv(menuId);
         div.oncontextmenu = e => e.preventDefault();
         ReactDOM.render(<DropdownMenu options={options} left={x} top={y} />, div);
-        window.addEventListener('click', () => div.remove());
+        window.addEventListener('mousedown', () => div.remove());
     }
 });
 let timeout = 3000;
@@ -65,12 +65,14 @@ interface DropdownMenuProps {
 function DropdownMenu({ options, top, bottom, left, right }: DropdownMenuProps): React.ReactElement {
     bottom ??= top;
     right ??= left;
+    const [openSubmenu, setOpenSubmenu] = React.useState(-1);
     const [ref, dims] = useDimensions<HTMLDivElement>();
     const [width, height] = useWindowDimensions();
     const fitsBelow = bottom + dims.height < height;
     const fitsRight = right + dims.width < width;
     const fitsLeft = 0 < left - dims.width;
     const fitsAbove = 0 < top - dims.height;
+    let submenuId = 0;
     return <div ref={ref} className='dropdown-menu' style={Object.assign(
         fitsBelow ? { top: `${bottom}px` }
         : fitsAbove ? { bottom: `${height - top}px` }
@@ -83,7 +85,8 @@ function DropdownMenu({ options, top, bottom, left, right }: DropdownMenuProps):
             typeof value == 'function'
             ? <Action title={title} action={value} />
             : value instanceof Array
-            ? <Submenu title={title} options={value} />
+            ? <Submenu title={title} options={value} id={++submenuId}
+                open={openSubmenu} onOpen={setOpenSubmenu} />
             : value === null || value === undefined || value === false
             ? <Disabled title={title} />
             : <Unrecognized title={title} />
@@ -99,7 +102,7 @@ function Action({ title, action }: ActionProps): React.ReactElement {
     return <div onClick={ev => { 
         ev.stopPropagation();
         action();
-    }}>
+    }} className='context-entry'>
         <Title>{title}</Title>
     </div>
 }
@@ -115,54 +118,66 @@ function Unrecognized({ title }: PropsNoValue): React.ReactElement {
 
 interface SubmenuProps {
     title: React.ReactNode
-    options: Option[]
+    options: Option[],
+    id: number
+    open: number,
+    onOpen: (id: number) => void
 }
-function Submenu({ title, options }: SubmenuProps): React.ReactElement {
+function Submenu({ title, options, id, open, onOpen }: SubmenuProps): React.ReactElement {
     const [state, event] = React.useReducer((
-        state: 'closed'|'open'|'pending',
-        event: 'click'|'enter'|'leave'|'timeout'
+        state: 'closed'|'open'|'timeout'|'pending',
+        event: 'forceClose'|'enter'|'leave'|'timeout'|'open'
     ) => { switch (state) {
         case 'open': switch (event) {
-            case 'click': return 'closed';
-            case 'leave': return 'pending';
-            case 'timeout': return 'closed';
-            default: return state;
-        }
-        case 'closed': switch (event) {
-            case 'click': return 'open';
-            case 'enter': return 'open';
+            case 'forceClose': return 'closed';
+            case 'leave': return 'timeout';
             default: return state;
         }
         case 'pending': switch (event) {
-            case 'click': return 'closed';
+            case 'forceClose': return 'closed';
+            case 'open': return 'open';
+            default: return state;
+        }
+        case 'closed': switch (event) {
+            case 'enter':
+                onOpen(id);
+                return 'pending';
+            default: return state;
+        }
+        case 'timeout': switch (event) {
+            case 'forceClose': return 'closed';
             case 'enter': return 'open';
             case 'timeout': return 'closed';
             default: return state;
         }
         default: return state;
     } }, 'closed');
-    const [dimref, dims] = useDimensions(true);
+    React.useEffect(() => {
+        if (open !== id && (state == 'open' || state == 'timeout')) event('forceClose');
+        if (open === id && state == 'pending') event('open');
+    }, [open, id, state]);
+    const [dimref, dims, visible] = useDimensions();
     const el = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (state == 'closed') return;
         const onClick = (ev: MouseEvent) => {
             const clicked = ev.target as HTMLElement;
-            if (!el.current?.contains(clicked)) event('click');
+            if (!el.current?.contains(clicked)) event('forceClose');
         };
         window.addEventListener('click', onClick);
         return () => window.removeEventListener('click', onClick);
-    });
+    }, [state == 'closed']);
     React.useEffect(() => {
-        if (state != 'pending') return;
+        if (state != 'timeout') return;
         const handle = setTimeout(() => event('timeout'), timeout);
         return () => clearTimeout(handle);
-    }, [state]);
-    return <div ref={mergeRefs(el, dimref)} className='context-submenu' onMouseEnter={() => event('enter')}
-        onMouseLeave={() => event('leave')} onClick={() => event('click')}>
+    }, [state == 'timeout']);
+    return <div ref={mergeRefs(el, dimref)} className='context-submenu context-entry'
+        onMouseEnter={() => event('enter')} onMouseLeave={() => event('leave')}>
         <Title>{title}</Title>
-        {state != 'closed' ? <>
+        {(state == 'open' || state == 'timeout') && visible ? <ExtractToBody>
             <DropdownMenu options={options} {...dims} top={dims.bottom} bottom={dims.top-1} />
-        </> : null}
+        </ExtractToBody> : null}
     </div>
 }
 
@@ -180,5 +195,21 @@ function Title({ children }: TItleProps): React.ReactElement {
     return <span className='context-title' ref={el}>{children}</span>
 }
 
-export default ContextMenu;
+function ExtractToBody({ children }: { children: React.ReactNode }): React.ReactElement | null {
+    const [node, setNode] = React.useState<HTMLDivElement>();
+    React.useEffect(() => {
+        if (!node) {
+            const div = document.createElement('div');
+            setNode(div);
+            document.body.append(div);
+        }
+        return () => {
+            node?.remove();
+            setNode(undefined);
+        }
+    }, []);
+    if (node) return ReactDOM.createPortal(children, node);
+    else return null;
+}
 
+export default ContextMenu;

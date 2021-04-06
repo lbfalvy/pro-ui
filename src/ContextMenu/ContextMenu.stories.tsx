@@ -11,11 +11,31 @@ export function BasicUsage(): React.ReactElement {
     return <ContextMenu options={[
         ['foo', () => alert('foo')],
         ['suboptions', [
-            ['sub1', () => alert('bar')],
+            ['sug1', () => alert('bar')],
             ['And I really really really really really really want to know', null]
         ]]
     ]}>
         This text has a custom context menu
+    </ContextMenu>
+}
+
+export function MultipleLevels(): React.ReactElement {
+    return <ContextMenu options={[
+        ['foo', () => alert('foo')],
+        ['suboptions', [
+            ['sug1', () => alert('bar')],
+            ['And I really really really really really really want to know', null],
+            ['Second level submenu', [
+                ['baz', null],
+                ['quz', null]
+            ]],
+            ['Sibling submenu', [
+                ['wibble', null],
+                ['wobble', null]
+            ]]
+        ]]
+    ]}>
+        This text has a custom context menu with multiple levels
     </ContextMenu>
 }
 
