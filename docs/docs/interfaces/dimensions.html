@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TabsProps | @lbfalvy/pro-ui</title>
+	<title>Dimensions | @lbfalvy/pro-ui</title>
 	<meta name="description" content="Documentation for @lbfalvy/pro-ui">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -53,41 +53,21 @@
 					<a href="../modules.html">@lbfalvy/pro-ui</a>
 				</li>
 				<li>
-					<a href="tabsprops.html">TabsProps</a>
+					<a href="dimensions.html">Dimensions</a>
 				</li>
 			</ul>
-			<h1>Interface TabsProps&lt;T&gt;</h1>
+			<h1>Interface Dimensions</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Props to the <a href="../modules.html#tabs">Tabs</a> component</p>
-					</div>
-				</div>
-			</section>
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>T = <span class="tsd-signature-type">undefined</span></h4>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>type of metadata, if present.</p>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TabsProps</span>
+						<span class="target">Dimensions</span>
 					</li>
 				</ul>
 			</section>
@@ -98,10 +78,14 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsprops.html#active" class="tsd-kind-icon">active</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsprops.html#children" class="tsd-kind-icon">children</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsprops.html#onmove" class="tsd-kind-icon">on<wbr>Move</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabsprops.html#onselect" class="tsd-kind-icon">on<wbr>Select</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#bottom" class="tsd-kind-icon">bottom</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#height" class="tsd-kind-icon">height</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#left" class="tsd-kind-icon">left</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#right" class="tsd-kind-icon">right</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#top" class="tsd-kind-icon">top</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#width" class="tsd-kind-icon">width</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#x" class="tsd-kind-icon">x</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dimensions.html#y" class="tsd-kind-icon">y</a></li>
 							</ul>
 						</section>
 					</div>
@@ -110,127 +94,84 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="active" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> active</h3>
-					<div class="tsd-signature tsd-kind-icon">active<span class="tsd-signature-symbol">:</span> <a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a></div>
+					<a name="bottom" class="tsd-anchor"></a>
+					<h3>bottom</h3>
+					<div class="tsd-signature tsd-kind-icon">bottom<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L42">Tabs/Tabs.types.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L6">useDimensions.ts:6</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>If specified and this id is present in <a href="tabsprops.html#children">children</a> then it will be
-							selected. In all other cases, the first tab will be selected by default.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="children" class="tsd-anchor"></a>
-					<h3>children</h3>
-					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <a href="tabdata.html" class="tsd-signature-type" data-tsd-kind="Interface">TabData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<a name="height" class="tsd-anchor"></a>
+					<h3>height</h3>
+					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L26">Tabs/Tabs.types.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L8">useDimensions.ts:8</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The specification from which the tabs are built.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="onmove" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Move</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Move<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>toPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a>, metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<a name="left" class="tsd-anchor"></a>
+					<h3>left</h3>
+					<div class="tsd-signature tsd-kind-icon">left<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L36">Tabs/Tabs.types.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L5">useDimensions.ts:5</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Called when a tab is dropped on this container. use <a href="../modules.html#removetab">removeTab</a> to
-								extract it from its current position and splice it into this container&#39;s
-							<a href="tabsprops.html#children">children</a>.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>param</dt>
-							<dd><p>Tells you where to insert the tab</p>
-							</dd>
-							<dt>param</dt>
-							<dd><p>Refers to the dragged tab</p>
-							</dd>
-							<dt>param</dt>
-							<dd><p>Refers to the dragged tab</p>
-							</dd>
-						</dl>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>toPosition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a>, metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>toPosition: <span class="tsd-signature-type">number</span></h5>
-											</li>
-											<li>
-												<h5>id: <a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a></h5>
-											</li>
-											<li>
-												<h5>metadata: <span class="tsd-signature-type">T</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="onselect" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Select</h3>
-					<div class="tsd-signature tsd-kind-icon">on<wbr>Select<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
+					<a name="right" class="tsd-anchor"></a>
+					<h3>right</h3>
+					<div class="tsd-signature tsd-kind-icon">right<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L48">Tabs/Tabs.types.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L5">useDimensions.ts:5</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Called when a different tab is selected. Use this to update
-							<a href="tabsprops.html#active">active</a> if you set it explicitly.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-interface">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>id: <a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="top" class="tsd-anchor"></a>
+					<h3>top</h3>
+					<div class="tsd-signature tsd-kind-icon">top<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L6">useDimensions.ts:6</a></li>
 						</ul>
-					</div>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="width" class="tsd-anchor"></a>
+					<h3>width</h3>
+					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L8">useDimensions.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="x" class="tsd-anchor"></a>
+					<h3>x</h3>
+					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L7">useDimensions.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="y" class="tsd-anchor"></a>
+					<h3>y</h3>
+					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/useDimensions.ts#L7">useDimensions.ts:7</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -247,9 +188,39 @@
 					<li class=" tsd-kind-interface">
 						<a href="contextmenuprops.html" class="tsd-kind-icon">Context<wbr>Menu<wbr>Props</a>
 					</li>
-					<li class=" tsd-kind-interface">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
 						<a href="dimensions.html" class="tsd-kind-icon">Dimensions</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#bottom" class="tsd-kind-icon">bottom</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#height" class="tsd-kind-icon">height</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#left" class="tsd-kind-icon">left</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#right" class="tsd-kind-icon">right</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#top" class="tsd-kind-icon">top</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#width" class="tsd-kind-icon">width</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#x" class="tsd-kind-icon">x</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="dimensions.html#y" class="tsd-kind-icon">y</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="dropdownmenuprops.html" class="tsd-kind-icon">Dropdown<wbr>Menu<wbr>Props</a>
 					</li>
@@ -271,27 +242,9 @@
 					<li class=" tsd-kind-interface">
 						<a href="tabsplitsprops.html" class="tsd-kind-icon">Tab<wbr>Splits<wbr>Props</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-has-type-parameter">
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="tabsprops.html" class="tsd-kind-icon">Tabs<wbr>Props</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabsprops.html#active" class="tsd-kind-icon">active</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabsprops.html#children" class="tsd-kind-icon">children</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabsprops.html#onmove" class="tsd-kind-icon">on<wbr>Move</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabsprops.html#onselect" class="tsd-kind-icon">on<wbr>Select</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-type-alias">
 						<a href="../modules.html#axis" class="tsd-kind-icon">Axis</a>
 					</li>

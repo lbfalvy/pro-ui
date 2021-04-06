@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TabData | @lbfalvy/pro-ui</title>
+	<title>ContextMenuProps | @lbfalvy/pro-ui</title>
 	<meta name="description" content="Documentation for @lbfalvy/pro-ui">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -53,10 +53,10 @@
 					<a href="../modules.html">@lbfalvy/pro-ui</a>
 				</li>
 				<li>
-					<a href="tabdata.html">TabData</a>
+					<a href="contextmenuprops.html">ContextMenuProps</a>
 				</li>
 			</ul>
-			<h1>Interface TabData&lt;T&gt;</h1>
+			<h1>Interface ContextMenuProps</h1>
 		</div>
 	</div>
 </header>
@@ -66,24 +66,20 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A single tab in a <a href="../modules.html#tabs">Tabs</a> container. id should be unique to any set of
-						tabs present at the same time because the user may drag them around.</p>
+						<p>Props to the <a href="../modules.html#contextmenu">ContextMenu</a> component</p>
 					</div>
 				</div>
-			</section>
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>T = <span class="tsd-signature-type">undefined</span></h4>
-					</li>
-				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TabData</span>
+						<span class="tsd-signature-type">HTMLProps</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLDivElement</span><span class="tsd-signature-symbol">&gt;</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ContextMenuProps</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -94,10 +90,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabdata.html#children" class="tsd-kind-icon">children</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabdata.html#id" class="tsd-kind-icon">id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabdata.html#metadata" class="tsd-kind-icon">metadata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="tabdata.html#title" class="tsd-kind-icon">title</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="contextmenuprops.html#children" class="tsd-kind-icon">children</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="contextmenuprops.html#options" class="tsd-kind-icon">options</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,43 +99,24 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
 					<a name="children" class="tsd-anchor"></a>
 					<h3>children</h3>
 					<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReactNode</span></div>
 					<aside class="tsd-sources">
+						<p>Overrides React.HTMLProps.children</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L12">Tabs/Tabs.types.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/ContextMenu/ContextMenu.types.ts#L18">ContextMenu/ContextMenu.types.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="id" class="tsd-anchor"></a>
-					<h3>id</h3>
-					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <a href="../modules.html#id" class="tsd-signature-type" data-tsd-kind="Type alias">ID</a></div>
+					<a name="options" class="tsd-anchor"></a>
+					<h3>options</h3>
+					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../modules.html#contextmenuoption" class="tsd-signature-type" data-tsd-kind="Type alias">ContextMenuOption</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L10">Tabs/Tabs.types.ts:10</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="metadata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> metadata</h3>
-					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L13">Tabs/Tabs.types.ts:13</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="title" class="tsd-anchor"></a>
-					<h3>title</h3>
-					<div class="tsd-signature tsd-kind-icon">title<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ReactNode</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/Tabs/Tabs.types.ts#L11">Tabs/Tabs.types.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/lbfalvy/pro-ui/blob/7cd8a02/src/ContextMenu/ContextMenu.types.ts#L17">ContextMenu/ContextMenu.types.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -157,9 +132,21 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-interface">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
 						<a href="contextmenuprops.html" class="tsd-kind-icon">Context<wbr>Menu<wbr>Props</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
+								<a href="contextmenuprops.html#children" class="tsd-kind-icon">children</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="contextmenuprops.html#options" class="tsd-kind-icon">options</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="dimensions.html" class="tsd-kind-icon">Dimensions</a>
 					</li>
@@ -178,27 +165,9 @@
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="splitsprops.html" class="tsd-kind-icon">Splits<wbr>Props</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-has-type-parameter">
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="tabdata.html" class="tsd-kind-icon">Tab<wbr>Data</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabdata.html#children" class="tsd-kind-icon">children</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabdata.html#id" class="tsd-kind-icon">id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabdata.html#metadata" class="tsd-kind-icon">metadata</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="tabdata.html#title" class="tsd-kind-icon">title</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-interface">
 						<a href="tabsplitsprops.html" class="tsd-kind-icon">Tab<wbr>Splits<wbr>Props</a>
 					</li>

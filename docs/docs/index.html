@@ -138,9 +138,39 @@
 <span style="color: #000000">  </span><span style="color: #0000FF">{</span><span style="color: #001080">children</span><span style="color: #000000FF">: </span><span style="color: #001080">SplitData</span><span style="color: #0000FF">}</span>
 <span style="color: #800000">&lt;/</span><span style="color: #267F99">Splits</span><span style="color: #800000">&gt;</span>
 </code></pre>
-				<p>There are a number of functions to help with transforming the tree, for a complete list, see the docs.</p>
-				<p>Documentation: <a href="https://lbfalvy.github.io/pro-ui/docs">https://lbfalvy.github.io/pro-ui/docs</a>
-				See it in action at <a href="https://lbfalvy.github.io/pro-ui">https://lbfalvy.github.io/pro-ui</a></p>
+				<p>There are a number of functions to help with transforming the tree, for a
+				complete list, see the docs.</p>
+				<p>This component can also be combined with <code>Tabs</code>, there&#39;s a special wrapper
+				called <code>TabSplits</code> with helper functions so a working setup is 20 lines.</p>
+				<a href="#context-menus" id="context-menus" style="color: inherit; text-decoration: none;">
+					<h3>Context menus</h3>
+				</a>
+				<p>You can create custom context menus. The data is structured in a tree of tuples
+					where the first element is the displayed name, and the second describes what
+				the element does:</p>
+				<pre><code class="language-TS"><span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">ContextMenuOption</span><span style="color: #000000"> = [</span><span style="color: #267F99">ReactNode</span><span style="color: #000000">, (() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #267F99">void</span><span style="color: #000000">) | </span><span style="color: #267F99">ContextMenuOption</span><span style="color: #000000">[] | </span><span style="color: #267F99">null</span><span style="color: #000000"> | </span><span style="color: #267F99">undefined</span><span style="color: #000000">]</span>
+</code></pre>
+				<p>The component itself is called like so:</p>
+				<pre><code class="language-TSX"><span style="color: #800000">&lt;</span><span style="color: #267F99">ContextMenu</span><span style="color: #000000"> </span><span style="color: #FF0000">options</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #001080">ContextMenuOption</span><span style="color: #000000FF">[]</span><span style="color: #0000FF">}</span><span style="color: #800000">&gt;</span>
+<span style="color: #000000">  ...</span>
+<span style="color: #800000">&lt;/</span><span style="color: #267F99">ContextMenu</span><span style="color: #800000">&gt;</span>
+</code></pre>
+				<p>Right clicking on any descendant of this node will bring up the custom context
+					menu rather than the browser&#39;s default one. If you nest them, the menu elements
+				will appear one after the other, with a horizontal line separating them.</p>
+				<p>All layers of the context menu try to find room for themselves on either side
+					of the mouse pointer / their parent option, they won&#39;t extend off-screen unless
+				the frame is smaller than the menu.</p>
+				<p>On elements not wrapped in a ContextMenu, the browser&#39;s default context menu
+					will still appear. You aren&#39;t supposed to disable this for accessibility
+				reasons, but if you do it with something like</p>
+				<pre><code class="language-TS"><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">oncontextmenu</span><span style="color: #000000"> = </span><span style="color: #001080">e</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #795E26">preventDefault</span><span style="color: #000000">()</span>
+</code></pre>
+				<p>then the custom menus won&#39;t break.</p>
+				<p>Documentation: <a href="https://lbfalvy.github.io/pro-ui/docs">https://lbfalvy.github.io/pro-ui/docs</a></p>
+				<p>See it in action at <a href="https://lbfalvy.github.io/pro-ui">https://lbfalvy.github.io/pro-ui</a></p>
+				<p>Repository: <a href="https://github.com/lbfalvy/pro-ui">https://github.com/lbfalvy/pro-ui</a></p>
+				<p>NPM: <a href="https://www.npmjs.com/package/@lbfalvy/pro-ui">https://www.npmjs.com/package/@lbfalvy/pro-ui</a></p>
 				<p>Library created from <a href="https://github.com/HarveyD/react-component-library">This template by HarveyD</a></p>
 			</div>
 		</div>
@@ -154,6 +184,18 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contextmenuprops.html" class="tsd-kind-icon">Context<wbr>Menu<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dimensions.html" class="tsd-kind-icon">Dimensions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dropdownmenuprops.html" class="tsd-kind-icon">Dropdown<wbr>Menu<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/menucontext.html" class="tsd-kind-icon">Menu<wbr>Context</a>
+					</li>
 					<li class=" tsd-kind-interface tsd-has-type-parameter">
 						<a href="interfaces/splitchild.html" class="tsd-kind-icon">Split<wbr>Child</a>
 					</li>
@@ -176,10 +218,22 @@
 						<a href="modules.html#axis" class="tsd-kind-icon">Axis</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#contextmenuoption" class="tsd-kind-icon">Context<wbr>Menu<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#id" class="tsd-kind-icon">ID</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#side" class="tsd-kind-icon">Side</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#menuctx" class="tsd-kind-icon">Menu<wbr>Ctx</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#contextmenu" class="tsd-kind-icon">Context<wbr>Menu</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#dropdownmenu" class="tsd-kind-icon">Dropdown<wbr>Menu</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="modules.html#splits" class="tsd-kind-icon">Splits</a>
@@ -228,6 +282,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="modules.html#traversesplittree" class="tsd-kind-icon">traverse<wbr>Split<wbr>Tree</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#usedimensions" class="tsd-kind-icon">use<wbr>Dimensions</a>
 					</li>
 				</ul>
 			</nav>
