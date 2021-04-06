@@ -52,7 +52,7 @@ export const MenuCtx = React.createContext<MenuContext>({
         const div = getOrCreateDiv(menuId);
         div.oncontextmenu = e => e.preventDefault();
         ReactDOM.render(<DropdownMenu options={options} left={x} top={y} />, div);
-        window.addEventListener('mousedown', () => div.remove());
+        window.addEventListener('click', () => div.remove(), { once: true });
     }
 });
 let timeout = 3000;
@@ -113,7 +113,7 @@ export function DropdownMenu({
     </div>
 }
 function Action({ title, action }: ActionProps): React.ReactElement {
-    return <div onClick={ev => { 
+    return <div onClick={ev => {
         ev.stopPropagation();
         action();
     }} className='context-entry'>
