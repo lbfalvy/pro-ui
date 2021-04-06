@@ -1,12 +1,14 @@
 // Generated with util/create-component.js
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 
 import { ResizeItem, SplitChild, SplitData, SplitsProps } from "./Splits.types";
 
 import "./Splits.scss";
-import { classList, mergeRefs, upCastRef, useDimensions, usePointer } from "../utils";
+import { classList, mergeRefs, upCastRef, usePointer } from "../utils";
 import { useDrag, useDrop } from "react-dnd";
 import { Axis, Side } from "../types";
+import { useDimensions } from "../useDimensions";
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 /**
  * A drag and drop split container inspired by Visual Studio and the Unity
@@ -115,7 +117,7 @@ interface HandleProps {
 const ResizeHandle: React.FC<HandleProps> = ({ axis, onResize }) => {
     const [measured, dimensions] = useDimensions<HTMLDivElement>();
     const getPointer = usePointer();
-    const [dragged, drag] = useDrag<ResizeItem, void, boolean>({
+    const [dragged, drag, preview] = useDrag<ResizeItem, void, boolean>({
         type: 'SPLIT_RESIZE',
         canDrag: onResize !== undefined,
         item: () => ({
@@ -131,6 +133,9 @@ const ResizeHandle: React.FC<HandleProps> = ({ axis, onResize }) => {
         },
         collect: monitor => monitor.isDragging()
     });
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true })
+    }, []);
     // It's just a div otherwise.
     return <div
         ref={mergeRefs(measured, drag)}

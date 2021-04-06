@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import { XYCoord } from "react-dnd";
 
 export type Writable<T> = { -readonly [P in keyof T]: T[P] };
@@ -32,36 +32,19 @@ export function mergeRefs<T, U extends T>(...refs: React.Ref<T>[]): React.Ref<U>
     };
 };
 
-export interface Dimensions {
-    left: number, right: number,
-    top: number, bottom: number,
-    x: number, y: number,
-    width: number, height: number
-}
-
-const defaultDimensions: Dimensions = {
-    left: 0, right: 0, top: 0, bottom: 0, x: 0, y: 0, width: 0, height: 0
-}
-const defaultDimensionsString = JSON.stringify(defaultDimensions);
-
-export function useDimensions<T extends HTMLElement>(): [React.Ref<T>, Dimensions, boolean] {
-    const ref = React.useRef<T>();
-    const [dimensions, setDimensions] = React.useState<string>(defaultDimensionsString);
+export function useWindowDimensions(): [number, number] {
+    const [width, setWidth] = React.useState(0);
+    const [height, setHeight] = React.useState(0);
     const recalculate = React.useCallback(() => {
-        const data = ref.current?.getBoundingClientRect();
-        if (data) setDimensions(JSON.stringify(data));
-    }, [ref.current]);
+        setWidth(window.innerWidth);
+        setHeight(window.innerHeight);
+    }, []);
     useLayoutEffect(() => {
         recalculate();
-        const observer = new ResizeObserver(recalculate);
-        if (!ref.current) return;
-        observer.observe(ref.current);
-        return () => observer.disconnect();
-    }, [ref.current, recalculate]);
-    const ret = React.useMemo(() => {
-        return JSON.parse(dimensions)
-    }, [dimensions]);
-    return [upCastRef(ref), ret, ret.width > 0 && ret.height > 0];
+        window.addEventListener('resize', recalculate);
+        return () => window.removeEventListener('resize', recalculate);
+    }, [recalculate]);
+    return [width, height];
 }
 
 function mouseMoveListener(ev: MouseEvent) {

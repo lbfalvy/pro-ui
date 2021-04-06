@@ -4,12 +4,13 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import Splits, { getSplitData } from "./Splits";
 import { fixSplitSizes } from './fixSplitData';
 import { SplitData, TabSplitsProps } from "./Splits.types";
-import { upCastRef, useDimensions } from "../utils";
+import { upCastRef } from "../utils";
 import SplitsLayer from './SplitsLayer';
 import { TabData } from '../Tabs/Tabs.types';
 import { resizeSplit } from './editSplitData';
 import { moveTab, splitWithTab, TabSplits } from './TabSplits';
 import { Meta } from '@storybook/react';
+import { useDimensions } from "../useDimensions";
 
 export default {
     title: "Splits",
