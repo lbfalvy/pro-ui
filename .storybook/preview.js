@@ -67,6 +67,12 @@
  **/
 
 import { themes } from '@storybook/theming';
+import React from 'react';
+
+const foot = {
+    flex: '0 0 max-content',
+    color: '#8af'
+}
 
 export const decorators = [
     (Story) => <div style={{
@@ -78,10 +84,12 @@ export const decorators = [
         <div style={{ flex: '1 1 100%', display: 'flex', flexDirection: 'column' }}>
             <Story />
         </div>
-        <div style={{ flex: '0 0 1em' }}>
-            <a href='docs/' style={{ color: 'yellow' }}>Read the docs.</a>
+        <div style={{ flex: '0 0 1em', justifyContent: 'space-between', display: 'flex', flexDirection: 'row' }}>
+            <a style={foot} href='docs/'>Docs</a>
+            <a style={foot} href='https://github.com/lbfalvy/pro-ui'>Github</a>
+            <a style={foot} href='https://www.npmjs.com/package/@lbfalvy/pro-ui'>NPM</a>
         </div>
-    </div>,
+    </div>
 ];
 
 export const parameters = {
