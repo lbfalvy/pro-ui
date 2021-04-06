@@ -7,8 +7,8 @@
   $inactive-bg: #444;
   $tab-border: #333;
   $bg: #222;
-  $over-bg: #fff;
-  $hover-bg: #eaeaea;
+  $over-bg: #666;
+  $hover-bg: #555;
   $accent: #2b2ba7;
   display: flex;
   flex-direction: column;
@@ -42,6 +42,7 @@
       &.active {
         background: $bg;
         border-top: 2px solid $accent;
+        cursor: grab;
       }
       &.over:not(.dragged) {
         $inactive-over-bg: mix($inactive-bg, $over-bg, 30%);
@@ -49,9 +50,12 @@
         background: $inactive-over-bg;
         &.active {
           $active-over-bg: mix($bg, $over-bg, 30%);
-          border-top: 2px solid $active-over-bg;
+          border-top: 2px solid $accent;
           background: $active-over-bg;
         }
+      }
+      &:hover:not(.active) {
+        background: $hover-bg;
       }
     }
     &.over {
