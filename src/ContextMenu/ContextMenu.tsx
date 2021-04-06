@@ -5,6 +5,8 @@ import { ContextMenuProps, Option } from "./ContextMenu.types";
 
 import "./ContextMenu.scss";
 import ReactDOM from "react-dom";
+import { mergeRefs, useWindowDimensions } from "../utils";
+import { useDimensions } from "../useDimensions";
 
 function ContextMenu({ options, children, ...rest }: ContextMenuProps): React.ReactElement {
     const prev = React.useContext(MenuCtx);
@@ -13,7 +15,6 @@ function ContextMenu({ options, children, ...rest }: ContextMenuProps): React.Re
         [<hr />, null],
         ...prev.options
     ] : options) as Option[], [options, prev.options]);
-    console.log('All options', allOptions);
     return <MenuCtx.Provider value={{ ...prev, options: allOptions }}>
         <div {...rest} onContextMenu={e => {
             e.preventDefault();
@@ -35,8 +36,8 @@ const MenuCtx = React.createContext<{
     display: (options, x, y) => {
         const div = getOrCreateDiv(menuId);
         div.oncontextmenu = e => e.preventDefault();
-        ReactDOM.render(<DropdownMenu options={options} x={x} y={y} />, div);
-        window.onclick = () => div.remove();
+        ReactDOM.render(<DropdownMenu options={options} left={x} top={y} />, div);
+        window.addEventListener('click', () => div.remove());
     }
 });
 let timeout = 3000;
@@ -56,13 +57,28 @@ function getOrCreateDiv(id: string): HTMLDivElement {
 
 interface DropdownMenuProps {
     options: Option[]
-    x: number
-    y: number
+    top: number
+    bottom?: number
+    left: number
+    right?: number
 }
-function DropdownMenu({ options, x, y }: DropdownMenuProps): React.ReactElement {
-    return <div className='dropdown-menu' style={{
-        top: `${y}px`, left: `${x}px`
-    }}>
+function DropdownMenu({ options, top, bottom, left, right }: DropdownMenuProps): React.ReactElement {
+    bottom ??= top;
+    right ??= left;
+    const [ref, dims] = useDimensions<HTMLDivElement>();
+    const [width, height] = useWindowDimensions();
+    const fitsBelow = bottom + dims.height < height;
+    const fitsRight = right + dims.width < width;
+    const fitsLeft = 0 < left - dims.width;
+    const fitsAbove = 0 < top - dims.height;
+    return <div ref={ref} className='dropdown-menu' style={Object.assign(
+        fitsBelow ? { top: `${bottom}px` }
+        : fitsAbove ? { bottom: `${height - top}px` }
+        : { bottom: 0 },
+        fitsRight ? { left: `${right}px` }
+        : fitsLeft ? { right: `${width - left}px` }
+        : { right: 0 }
+    )}>
         {options.map(([title, value]) => (
             typeof value == 'function'
             ? <Action title={title} action={value} />
@@ -125,6 +141,7 @@ function Submenu({ title, options }: SubmenuProps): React.ReactElement {
         }
         default: return state;
     } }, 'closed');
+    const [dimref, dims] = useDimensions(true);
     const el = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         if (state == 'closed') return;
@@ -140,12 +157,12 @@ function Submenu({ title, options }: SubmenuProps): React.ReactElement {
         const handle = setTimeout(() => event('timeout'), timeout);
         return () => clearTimeout(handle);
     }, [state]);
-    return <div ref={el} className='context-submenu' onMouseEnter={() => event('enter')}
+    return <div ref={mergeRefs(el, dimref)} className='context-submenu' onMouseEnter={() => event('enter')}
         onMouseLeave={() => event('leave')} onClick={() => event('click')}>
         <Title>{title}</Title>
-        {state != 'closed' ? <div className='submenu-anchor'>
-            <DropdownMenu options={options} x={1} y={0} />
-        </div> : null}
+        {state != 'closed' ? <>
+            <DropdownMenu options={options} {...dims} top={dims.bottom} bottom={dims.top-1} />
+        </> : null}
     </div>
 }
 

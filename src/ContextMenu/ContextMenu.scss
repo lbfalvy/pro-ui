@@ -4,7 +4,7 @@
 
 .dropdown-menu {
   @include font-defaults;
-  position: absolute;
+  position: fixed;
   background-color: #444;
   border: 1px solid #555;
   color: #bbb;
@@ -13,6 +13,7 @@
     width: 100%;
     height: 1em;
     display: inline-block;
+    cursor: pointer;
   }
   :hover > .context-title {
     color: #eee;
@@ -22,12 +23,11 @@
     max-width: 256px;
     text-overflow: ellipsis;
   }
-  cursor: pointer;
   .context-disabled {
     width: inherit;
     color: #888;
     cursor: default;
-    .context-title:hover {
+    &:hover > .context-title {
       color: inherit;
     }
   }
