@@ -6,16 +6,15 @@ import { fixSplitSizes } from './fixSplitData';
 import { SplitData, TabSplitsProps } from "./Splits.types";
 import { upCastRef, useDimensions } from "../utils";
 import SplitsLayer from './SplitsLayer';
-import Tabs from '../Tabs';
-import { TabData, TabDrag } from '../Tabs/Tabs.types';
-import { resizeSplit, transposeSplitTree } from './editSplitData';
+import { TabData } from '../Tabs/Tabs.types';
+import { resizeSplit } from './editSplitData';
 import { moveTab, splitWithTab, TabSplits } from './TabSplits';
-import { ID, Side } from "../types";
+import { Meta } from '@storybook/react';
 
 export default {
     title: "Splits",
-    component: Splits
-};
+    component: Splits,
+} as Meta;
 
 const demoData: SplitData = getSplitData('x', [{
     ratio: 0.8,
@@ -37,13 +36,19 @@ const demoData: SplitData = getSplitData('x', [{
     content: <div>Right sidebar</div>
 }]);
 export const Static = () => {
-    return <DndProvider backend={HTML5Backend}>
-        <div style={{ flex: '1 1 100%' }}>
-            <Splits >
-                {demoData}
-            </Splits>
-        </div>
-    </DndProvider>;
+    return <>
+        <p>
+            This is a static grid, for comparison with the others. It is rendered without any
+            props except children.
+        </p>
+        <DndProvider backend={HTML5Backend}>
+            <div style={{ flex: '1 1 100%' }}>
+                <Splits >
+                    {demoData}
+                </Splits>
+            </div>
+        </DndProvider>
+    </>
 }
 
 export const Resizable = () => {
@@ -51,14 +56,20 @@ export const Resizable = () => {
     const [data, drag] = React.useReducer((state: SplitData, move: [number[], number, number]) => {
         return resizeSplit(state, ...move);
     }, demoData);
-    return <DndProvider backend={HTML5Backend}>
-        <div style={{ flex: '1 1 100%' }}>
-            <SplitsLayer/>
-            <Splits minSize={minSize} onResize={(node, after, amount) => drag([node, after, amount])}>
-                {data}
-            </Splits>
-        </div>
-    </DndProvider>;
+    return <>
+        <p>
+            This grid has an <code>onResize</code> handler, a <code>minSize</code> and a
+            sibling <code>SplitsLayer</code> and thus can be resized by dragging the separators.
+        </p>
+        <DndProvider backend={HTML5Backend}>
+            <div style={{ flex: '1 1 100%' }}>
+                <SplitsLayer/>
+                <Splits minSize={minSize} onResize={(node, after, amount) => drag([node, after, amount])}>
+                    {data}
+                </Splits>
+            </div>
+        </DndProvider>
+    </>
 }
 
 const tabSplitDemo: SplitData<TabData[]> = getSplitData( 'x', [{
@@ -114,21 +125,35 @@ type Cell = TabData<number[]>[];
 export const Splittable = () => {
     const minSize = 30;
     const [ref, dim] = useDimensions();
-    const [data, event] = React.useReducer((state: Cell | SplitData<Cell>, ev: ResizeEvent|SplitEvent|TabDragEvent) => {
+    const [data, event] = React.useReducer((
+        state: Cell | SplitData<Cell>,
+        ev: ResizeEvent|SplitEvent|TabDragEvent
+    ) => {
         let temp = state;
-        if (ev.type == 'move') temp = moveTab(temp, ...ev.details);
-        else if (ev.type == 'split') temp = splitWithTab(temp, ...ev.details);
-        else if (ev.type == 'resize') temp = resizeSplit(temp as SplitData<Cell>, ...ev.details);
+        if (ev.type == 'move')
+            temp = moveTab(temp, ...ev.details);
+        else if (ev.type == 'split')
+            temp = splitWithTab(temp, ...ev.details);
+        else if (ev.type == 'resize')
+            temp = resizeSplit(temp as SplitData<Cell>, ...ev.details);
         return fixSplitSizes(temp, minSize, { x: dim.width, y: dim.height });
     }, tabSplitDemo);
-    return <DndProvider backend={HTML5Backend}>
-        <div ref={upCastRef(ref)} style={{ flex: '1 1 100%' }}>
-            <TabSplits minSize={minSize}
-                onResize={(...details) => event({ type: 'resize', details })}
-                onSplit={(...details) => event({ type: 'split', details })}
-                onMove={(...details) => event({ type: 'move', details })}>
-                {data}
-            </TabSplits>
-        </div>
-    </DndProvider>
+    return <>
+        <p>
+            This is a <code>TabSplits</code> component, the same behavior can be achieved by
+            putting a <code>Tabs</code> inside of a <code>Splits</code>. It defines
+            both <code>onResize</code>, <code>onSplit</code> and <code>onMove</code> and thus
+            supports dragging tabs and splitting cells.
+        </p>
+        <DndProvider backend={HTML5Backend}>
+            <div ref={upCastRef(ref)} style={{ flex: '1 1 100%' }}>
+                <TabSplits minSize={minSize}
+                    onResize={(...details) => event({ type: 'resize', details })}
+                    onSplit={(...details) => event({ type: 'split', details })}
+                    onMove={(...details) => event({ type: 'move', details })}>
+                    {data}
+                </TabSplits>
+            </div>
+        </DndProvider>
+    </>
 }
