@@ -139,6 +139,11 @@ window.oncontextmenu = e => e.preventDefault()
 then the custom menus won't break.
 
 Documentation: https://lbfalvy.github.io/pro-ui/docs
+
 See it in action at https://lbfalvy.github.io/pro-ui
+
+Repository: https://github.com/lbfalvy/pro-ui
+
+NPM: https://www.npmjs.com/package/@lbfalvy/pro-ui
 
 Library created from [This template by HarveyD](https://github.com/HarveyD/react-component-library)

@@ -17,6 +17,7 @@ import { useDimensions } from "../useDimensions";
  * 
  * The menu is rendered with {@link DropdownMenu} but you can also call it
  * directly.
+ * @category ContextMenu
  * @param param0 
  * @returns 
  */
@@ -42,6 +43,7 @@ function ContextMenu({ options, children, ...rest }: ContextMenuProps): React.Re
  * The context menu context. You can use it directly to set the submenu
  * timeout, create a menu provider that doesn't inherit the parent's
  * options, or provide an alternative means of displaying the menu.
+ * @category ContextMenu
  */
 export const MenuCtx = React.createContext<MenuContext>({
     setTimeout: t => { timeout = t },
@@ -73,6 +75,7 @@ function getOrCreateDiv(id: string): HTMLDivElement {
  * directly to create a menubar for example.
  * 
  * It is used to render {@link ContextMenu}.
+ * @category ContextMenu
  * @param param0 
  * @returns 
  */
