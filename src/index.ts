@@ -8,4 +8,5 @@ export {
     moveTab, splitWithTab, TabSplits,
     SplitData, SplitChild, SplitsProps, TabSplitsProps
 } from './Splits';
+export { default as ContextMenu, ContextMenuProps } from './ContextMenu'
 export { ID, Axis, Side } from './types';

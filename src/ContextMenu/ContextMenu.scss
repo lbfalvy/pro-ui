@@ -1,0 +1,42 @@
+// Generated with util/create-component.js
+@import "../variables.scss";
+@import "../typography.scss";
+
+.dropdown-menu {
+  @include font-defaults;
+  position: absolute;
+  background-color: #444;
+  border: 1px solid #555;
+  color: #bbb;
+  .context-title {
+    overflow: hidden;
+    width: 100%;
+    height: 1em;
+    display: inline-block;
+  }
+  :hover > .context-title {
+    color: #eee;
+  }
+  * {
+    white-space: nowrap;
+    max-width: 256px;
+    text-overflow: ellipsis;
+  }
+  cursor: pointer;
+  .context-disabled {
+    width: inherit;
+    color: #888;
+    cursor: default;
+    .context-title:hover {
+      color: inherit;
+    }
+  }
+  .context-submenu {
+    position: relative;
+    & > .submenu-anchor {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}
