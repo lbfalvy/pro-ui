@@ -73,6 +73,7 @@ export const decorators = [
         position: 'absolute', padding: '10px', boxSizing: 'border-box',
         top: 0, left: 0, height: '100%', width: '100%',
         display: 'flex', flexDirection: 'column',
+        color: 'white'
     }}>
         <div style={{ flex: '1 1 100%', display: 'flex', flexDirection: 'column' }}>
             <Story />
