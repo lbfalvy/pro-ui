@@ -1,2 +1,2 @@
-export { default } from './ContextMenu';
-export { ContextMenuProps } from './ContextMenu.types';
+export { default, DropdownMenu, MenuCtx } from './ContextMenu';
+export { ContextMenuProps, MenuContext, ContextMenuOption, DropdownMenuProps } from './ContextMenu.types';

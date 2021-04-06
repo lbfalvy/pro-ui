@@ -13,6 +13,17 @@ const defaultDimensions: Dimensions = {
 }
 const defaultDimensionsString = JSON.stringify(defaultDimensions);
 
+/**
+ * Determines the dimensions of the element, effectively a hook for
+ * getBoundingClientRect. Unlike every other implementation online, this one
+ * does actually seem to catch every movement and size change, even those
+ * caused by only moving or resizing the element with JavaScript.
+ * 
+ * WARNING: This hook is not debounced or rate limited. Do not use it to track
+ * continuous motion.
+ * 
+ * @returns ref, size of the value of ref, whether anything is visible
+ */
 export function useDimensions<T extends HTMLElement>(): [React.Ref<T>, Dimensions, boolean] {
     const ref = React.useRef<T>(null);
     const watcher = React.useRef<HTMLDivElement | null>(null);

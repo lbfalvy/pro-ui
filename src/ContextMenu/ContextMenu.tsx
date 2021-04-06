@@ -1,20 +1,32 @@
 // Generated with util/create-component.js
 import React from "react";
 
-import { ContextMenuProps, Option } from "./ContextMenu.types";
+import { ContextMenuProps, ContextMenuOption, DropdownMenuProps, TItleProps, SubmenuProps, PropsNoValue, ActionProps, MenuContext } from "./ContextMenu.types";
 
 import "./ContextMenu.scss";
 import ReactDOM from "react-dom";
 import { mergeRefs, useWindowDimensions } from "../utils";
 import { useDimensions } from "../useDimensions";
 
+/**
+ * A context menu component. Use it like a context provider, pass the context
+ * menu entries in `options`. It will add them to the menu, but it will also
+ * show all options from enclosing ContextMenu instances. Also note that this
+ * inserts a new div into the DOM, any props other than `options` and
+ * `children` are passed directly to that div.
+ * 
+ * The menu is rendered with {@link DropdownMenu} but you can also call it
+ * directly.
+ * @param param0 
+ * @returns 
+ */
 function ContextMenu({ options, children, ...rest }: ContextMenuProps): React.ReactElement {
     const prev = React.useContext(MenuCtx);
     const allOptions = React.useMemo(() => (prev.options.length ? [
         ...options,
         [<hr />, null],
         ...prev.options
-    ] : options) as Option[], [options, prev.options]);
+    ] : options) as ContextMenuOption[], [options, prev.options]);
     return <MenuCtx.Provider value={{ ...prev, options: allOptions }}>
         <div {...rest} onContextMenu={e => {
             e.preventDefault();
@@ -26,11 +38,12 @@ function ContextMenu({ options, children, ...rest }: ContextMenuProps): React.Re
     </MenuCtx.Provider>
 }
 
-const MenuCtx = React.createContext<{
-    setTimeout: (timeout: number) => void,
-    options: Option[],
-    display: (options: Option[], x: number, y: number) => void,
-}>({
+/**
+ * The context menu context. You can use it directly to set the submenu
+ * timeout, create a menu provider that doesn't inherit the parent's
+ * options, or provide an alternative means of displaying the menu.
+ */
+export const MenuCtx = React.createContext<MenuContext>({
     setTimeout: t => { timeout = t },
     options: [],
     display: (options, x, y) => {
@@ -55,14 +68,17 @@ function getOrCreateDiv(id: string): HTMLDivElement {
     return div as HTMLDivElement;
 }
 
-interface DropdownMenuProps {
-    options: Option[]
-    top: number
-    bottom?: number
-    left: number
-    right?: number
-}
-function DropdownMenu({ options, top, bottom, left, right }: DropdownMenuProps): React.ReactElement {
+/**
+ * Renders a multilevel menu to any corner of the given box. You can use it
+ * directly to create a menubar for example.
+ * 
+ * It is used to render {@link ContextMenu}.
+ * @param param0 
+ * @returns 
+ */
+export function DropdownMenu({
+    options, top, bottom, left, right
+}: DropdownMenuProps): React.ReactElement {
     bottom ??= top;
     right ??= left;
     const [openSubmenu, setOpenSubmenu] = React.useState(-1);
@@ -93,11 +109,6 @@ function DropdownMenu({ options, top, bottom, left, right }: DropdownMenuProps):
         ))}
     </div>
 }
-
-interface ActionProps {
-    title: React.ReactNode
-    action: () => void
-}
 function Action({ title, action }: ActionProps): React.ReactElement {
     return <div onClick={ev => { 
         ev.stopPropagation();
@@ -107,8 +118,6 @@ function Action({ title, action }: ActionProps): React.ReactElement {
     </div>
 }
 
-interface PropsNoValue { title: React.ReactNode }
-
 function Disabled({ title }: PropsNoValue): React.ReactElement {
     return <div className='context-disabled'><Title>{title}</Title></div>
 }
@@ -116,13 +125,6 @@ function Unrecognized({ title }: PropsNoValue): React.ReactElement {
     return <div className='context-unrecognized'><Title>{title}</Title></div>
 }
 
-interface SubmenuProps {
-    title: React.ReactNode
-    options: Option[],
-    id: number
-    open: number,
-    onOpen: (id: number) => void
-}
 function Submenu({ title, options, id, open, onOpen }: SubmenuProps): React.ReactElement {
     const [state, event] = React.useReducer((
         state: 'closed'|'open'|'timeout'|'pending',
@@ -181,9 +183,6 @@ function Submenu({ title, options, id, open, onOpen }: SubmenuProps): React.Reac
     </div>
 }
 
-interface TItleProps {
-    children: React.ReactNode
-}
 function Title({ children }: TItleProps): React.ReactElement {
     const el = React.useRef<HTMLElement>(null);
     React.useLayoutEffect(() => {

@@ -1,7 +1,7 @@
 // Generated with util/create-component.js
 import React from "react";
 import ContextMenu from "./ContextMenu";
-import { Option } from './ContextMenu.types';
+import { ContextMenuOption } from './ContextMenu.types';
 
 export default {
     title: "ContextMenu"
