@@ -51,10 +51,7 @@ function Splits<T>({
                     || (splitTypes as string[] )?.includes(type) )*/
         }
     })
-    return <div ref={drop} className={classList({
-        'splits-container': true,
-        'splits-highlight': shouldHighlightFrame
-    })}>
+    return <div ref={drop} className={classList('splits-container', shouldHighlightFrame && 'splits-highlight')}>
         {isSplitData(children)
             ? <SplitsContainer {...children} splitTypes={splitTypesArray} 
                 onResize={onResize} onSplit={onSplit} minSize={_minSize} />
@@ -116,14 +113,14 @@ interface HandleProps {
 
 const ResizeHandle: React.FC<HandleProps> = ({ axis, onResize }) => {
     const [measured, dimensions] = useDimensions<HTMLDivElement>();
-    const getPointer = usePointer();
+    const pointer = usePointer();
     const [dragged, drag, preview] = useDrag<ResizeItem, void, boolean>({
         type: 'SPLIT_RESIZE',
         canDrag: onResize !== undefined,
         item: () => ({
             width: dimensions.width,
             height: dimensions.height,
-            start: {...getPointer()},
+            start: {...pointer},
             axis
         }),
         // We don't need to check didDrop because the boundaries are enforced
@@ -139,11 +136,11 @@ const ResizeHandle: React.FC<HandleProps> = ({ axis, onResize }) => {
     // It's just a div otherwise.
     return <div
         ref={mergeRefs(measured, drag)}
-        className={classList({
-            [`splits-border splits-border-${axis}`]: true,
-            'enabled': onResize !== undefined,
-            'dragged': dragged
-        })}
+        className={classList(
+            `splits-border splits-border-${axis}`,
+            onResize && 'enabled',
+            dragged && 'dragged'
+        )}
     />
 }
 
@@ -176,10 +173,7 @@ function SplitArea<T>({ side, splitTypes, onSplit }: SplitAreaProps<T>): React.R
                 && (splitTypes as string[]).includes(type);
         }
     });
-    return <div ref={drop} className={classList({
-        [`splits-overlay-${side}`]: true,
-        'over': over
-    })} />
+    return <div ref={drop} className={classList(`splits-overlay-${side}`, over && 'over')} />
 }
 
 const sides: Side[] = ['top','bottom','left','right'];

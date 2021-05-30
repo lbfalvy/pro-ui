@@ -1,2 +1,2 @@
-export { default, removeTab } from './Tabs';
+export { default } from './Tabs';
 export { TabData, TabsProps } from './Tabs.types';

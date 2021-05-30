@@ -1,7 +1,7 @@
 // Generated with util/create-component.js
 import React from "react";
 
-import { TabsProps, TabDrag, TabData } from "./Tabs.types";
+import { TabsProps, TabDrag } from "./Tabs.types";
 
 import "./Tabs.scss";
 import { useDrag, useDrop } from "react-dnd";
@@ -29,10 +29,7 @@ function Tabs<T>({ children, onMove, active: activeDefault, onSelect }: TabsProp
         collect: monitor => monitor.isOver({ shallow: true })
     }, [children.length, onMove]);
     return <div data-testid="Tabs" className="tabs-container">
-        <div ref={drop} className={classList({
-            'tabs-container-heads': true,
-            'over': over
-        })} onWheel={ev => {
+        <div ref={drop} className={classList('tabs-container-heads', over && 'over')} onWheel={ev => {
             ev.preventDefault();
             ev.currentTarget.scrollBy({ behavior: 'auto', left: ev.deltaY * 10 });
         }}>
@@ -82,27 +79,11 @@ function Tab<T>({ id, metadata, children, active, onDrop, onClick }: TabProps<T>
         item: { id, metadata },
         collect: monitor => monitor.isDragging()
     }, [id]);
-    return <div ref={mergeRefs(drag, drop)} className={classList({
-        'tabs-container-head': true,
-        'over': over,
-        'active': active,
-        'dragged': dragged
-    })} onClick={onClick}>
+    return <div ref={mergeRefs(drag, drop)} className={classList(
+        'tabs-container-head', over && 'over', dragged && 'dragged', active && 'active'
+    )} onClick={onClick}>
         {children}
     </div>;
 }
 
 export default Tabs;
-
-/**
- * Removes and returns the tab with the given ID from the collection. Use this
- * to retrieve the dragged tab and insert it in the new location with a simple
- * `data.splice(0, tab)` to execute a tab drag action.
- * @category Tabs
- * @param tabs Tabs state
- * @param id Tab to be removed
- * @returns The removed tab
- */
-export function removeTab<T>(tabs: TabData<T>[], id: ID): TabData<T> | undefined {
-    return tabs.splice(tabs.findIndex(el => el.id === id), 1)[0]
-}

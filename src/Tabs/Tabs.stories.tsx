@@ -4,7 +4,8 @@ import React from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { ID } from "../types";
-import Tabs, { removeTab } from "./Tabs";
+import { removeItem } from "../utils";
+import Tabs from "./Tabs";
 import { TabData } from "./Tabs.types";
 
 export default {
@@ -77,7 +78,7 @@ export const MultipleContainers = () => {
     const [items, move] = React.useReducer(
         (state: TabData<number>[][], { id, container, index, meta }: Move) => {
             return produce(state, draft => {
-                let item = removeTab(draft[meta], id);
+                let item = removeItem(draft[meta], id);
                 item = {...item, metadata: container};
                 draft[container].splice(index, 0, item);
             });

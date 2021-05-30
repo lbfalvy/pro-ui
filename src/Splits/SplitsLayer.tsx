@@ -35,10 +35,7 @@ function SplitsLayer(): React.ReactElement | null {
         width: '100%',
         height: '100%',
     }}>
-        <div className={classList({
-            'splits-ghost-border': true,
-            [`splits-ghost-border-${item.axis}`]: true
-        })} style={{
+        <div className={classList('splits-ghost-border', `splits-ghost-border-${item.axis}`)} style={{
             width: `${item.width}px`,
             height: `${item.height}px`,
             top: `${drawPos.y}px`,

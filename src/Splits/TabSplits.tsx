@@ -1,8 +1,9 @@
 import produce from "immer";
 import React from "react";
-import Tabs, { removeTab, TabData } from "../Tabs";
+import Tabs from "../Tabs";
 import { TabDrag } from "../Tabs/Tabs.types";
 import { ID, Side } from "../types";
+import { removeItem } from "../utils";
 import { editSplitData, subdivideSplit, transposeSplitTree, traverseSplitTree } from "./editSplitData";
 import { fixSplitTree } from "./fixSplitData";
 import Splits, { isSplitData } from "./Splits";
@@ -19,15 +20,15 @@ import SplitsLayer from "./SplitsLayer";
  * @param from Source path
  * @returns 
  */
-export function moveTab(
-    data: TabData<number[]>[] | SplitData<TabData<number[]>[]>,
+export function moveTab<T extends { id: ID }>(
+    data: T[] | SplitData<T[]>,
     to: number[], insert: number, id: string|number,
     from: number[]
-): TabData<number[]>[] | SplitData<TabData<number[]>[]> {
+): T[] | SplitData<T[]> {
     data = produce(data, draft => {
         const tabs = traverseSplitTree(draft, from);
         if (isSplitData(tabs)) throw new Error('Source not a leaf');
-        const item = removeTab(tabs, id);
+        const item = removeItem(tabs, id);
         if (!item) throw new Error('Tab not found');
         const target = traverseSplitTree(draft, to);
         if (isSplitData(target)) throw new Error('Target not a leaf');
@@ -46,17 +47,17 @@ export function moveTab(
  * @param from Leaf the tab was moved from
  * @returns 
  */
-export function splitWithTab(
-    data: TabData<number[]>[] | SplitData<TabData<number[]>[]>,
+export function splitWithTab<T extends { id: ID }>(
+    data: T[] | SplitData<T[]>,
     path: number[],
     side: Side,
     id: ID,
     from: number[]
-): SplitData<TabData<number[]>[]> {
-    let item: TabData<number[]> | undefined;
+): SplitData<T[]> {
+    let item: T | undefined;
     data = editSplitData(data, from, leaf => {
-        const newLeaf = [...leaf as TabData<number[]>[]];
-        item = removeTab(newLeaf, id);
+        const newLeaf = [...leaf as T[]];
+        item = removeItem(newLeaf, id);
         return newLeaf;
     });
     if (item === undefined) throw new Error('Tab not found')

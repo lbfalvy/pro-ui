@@ -1,14 +1,32 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { XYCoord } from "react-dnd";
+import { ID } from "./types";
 
 export type Writable<T> = { -readonly [P in keyof T]: T[P] };
 
-export function classList(classes: Record<string, boolean>): string {
-    return Object
-        .entries(classes)
-        .filter(entry => entry[1])
-        .map(entry => entry[0])
-        .join(' ');
+/**
+ * Removes and returns the item with the given ID from the collection. Use this
+ * to retrieve the dragged tab and insert it in the new location with a simple
+ * `data.splice(0, tab)` to execute a tab drag action.
+ * @category Tabs
+ * @param array Tabs state
+ * @param id Tab to be removed
+ * @returns The removed tab
+ */
+export function removeItem<T extends { id: ID }>(array: T[], id: ID): T | undefined {
+    return array.splice(array.findIndex(el => el.id === id), 1)[0]
+}
+
+/**
+ * Decide whether each class gets applied with a simple boolean expression
+ * @param classes An array of strings, arrays of strings. The set of
+ * allowed symbols was composed specifically to exclude the old syntax
+ * @returns A composed class list string
+ */
+export function classList(...classes: (
+    string | boolean | undefined | null | (() => unknown) | Symbol | unknown[]
+)[]): string {
+    return classes.flat().filter(c => typeof c == 'string').join(' ')
 }
 
 export function upCastRef<T, U extends T>(ref: React.Ref<T>): (u: U | null) => void {
@@ -22,6 +40,11 @@ export function upCastRef<T, U extends T>(ref: React.Ref<T>): (u: U | null) => v
     };
 }
 
+/**
+ * Make all provided refs follow the value of the returned ref
+ * @param refs tracking refs
+ * @returns master ref
+ */
 export function mergeRefs<T, U extends T>(...refs: React.Ref<T>[]): React.Ref<U> {
     const filteredRefs = refs.filter(Boolean);
     if (!filteredRefs.length) return null;
@@ -32,6 +55,10 @@ export function mergeRefs<T, U extends T>(...refs: React.Ref<T>[]): React.Ref<U>
     };
 };
 
+/**
+ * Get the window dimensions in pixels whenever it changes.
+ * @returns Size of the window in pixels
+ */
 export function useWindowDimensions(): [number, number] {
     const [width, setWidth] = React.useState(0);
     const [height, setHeight] = React.useState(0);
@@ -55,7 +82,12 @@ function mouseMoveListener(ev: MouseEvent) {
 
 export const mousePosition = { x: 0, y: 0, now: 0 };
 let mouseWatchers = 0;
-export function usePointer(): () => { x: number, y: number } {
+
+/**
+ * Keep track of the mouse pointer, ref style.
+ * @returns A function that always returns the corrent mouse position
+ */
+export function usePointer(): { x: number, y: number } {
     React.useEffect(() => {
         if (mouseWatchers++ == 0) {
             window.addEventListener('mousemove', mouseMoveListener);
@@ -66,7 +98,7 @@ export function usePointer(): () => { x: number, y: number } {
             }
         };
     }, []);
-    return () => mousePosition;
+    return mousePosition;
 }
 
 export function constrain(lower: number, value: number, upper: number) {

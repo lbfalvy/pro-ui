@@ -68,6 +68,12 @@ export interface DropdownMenuProps {
      * The menu will try to align its left side with this line
      */
     right?: number
+
+    /**
+     * Menu trees use this internally.
+     * @private
+     */
+    active?: [number[], (v: number[]) => void]
 }
 
 export interface TItleProps {
@@ -76,13 +82,15 @@ export interface TItleProps {
 
 export interface PropsNoValue {
     title: React.ReactNode
+    active: boolean
+    setActive: () => void
 }
 
 export interface SubmenuProps extends PropsNoValue {
     options: ContextMenuOption[],
     id: number
-    open: number,
-    onOpen: (id: number) => void
+    sub: number[]
+    setSub: (v: number[]) => void
 }
 
 export interface ActionProps extends PropsNoValue {

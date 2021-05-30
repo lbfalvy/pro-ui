@@ -5,7 +5,7 @@ import { ContextMenuProps, ContextMenuOption, DropdownMenuProps, TItleProps, Sub
 
 import "./ContextMenu.scss";
 import ReactDOM from "react-dom";
-import { mergeRefs, useWindowDimensions } from "../utils";
+import { classList, mergeRefs, useWindowDimensions } from "../utils";
 import { useDimensions } from "../useDimensions";
 
 /**
@@ -51,7 +51,7 @@ export const MenuCtx = React.createContext<MenuContext>({
     display: (options, x, y) => {
         const div = getOrCreateDiv(menuId);
         div.oncontextmenu = e => e.preventDefault();
-        ReactDOM.render(<DropdownMenu options={options} left={x} top={y} />, div);
+        ReactDOM.render(<DropdownMenu options={options} left={x} top={y} key={`${x};${y}`} />, div);
         window.addEventListener('click', () => div.remove(), { once: true });
     }
 });
@@ -80,18 +80,31 @@ function getOrCreateDiv(id: string): HTMLDivElement {
  * @returns 
  */
 export function DropdownMenu({
-    options, top, bottom, left, right
+    options, top, bottom, left, right, active: parentActive
 }: DropdownMenuProps): React.ReactElement {
     bottom ??= top;
     right ??= left;
-    const [openSubmenu, setOpenSubmenu] = React.useState(-1);
+    // The topmost element will remember the active state
+    const fallbackActive = React.useState<number[]>([])
+    if (parentActive && fallbackActive[0].length != 0) fallbackActive[1]([])
+    const [active, setActive] = parentActive ?? fallbackActive
+    // Calculate position
     const [ref, dims] = useDimensions<HTMLDivElement>();
     const [width, height] = useWindowDimensions();
     const fitsBelow = bottom + dims.height < height;
     const fitsRight = right + dims.width < width;
     const fitsLeft = 0 < left - dims.width;
     const fitsAbove = 0 < top - dims.height;
-    let submenuId = 0;
+    // Current active element, state of active submenu
+    const [choice, ...subchoice] = active;
+    const setChoice = React.useCallback(
+        (c: number) => setActive([c]), // flushes subchoice
+        [setActive]
+    )
+    const setSubchoice = React.useCallback(
+        (sc: number[]) => setActive([choice, ...sc]), // Preserves choice
+        [setActive, choice]
+    )
     return <div ref={ref} className='dropdown-menu' style={Object.assign(
         fitsBelow ? { top: `${bottom}px` }
         : fitsAbove ? { bottom: `${height - top}px` }
@@ -100,23 +113,23 @@ export function DropdownMenu({
         : fitsLeft ? { right: `${width - left}px` }
         : { right: 0 }
     )}>
-        {options.map(([title, value]) => (
-            typeof value == 'function'
-            ? <Action title={title} action={value} />
-            : value instanceof Array
-            ? <Submenu title={title} options={value} id={++submenuId}
-                open={openSubmenu} onOpen={setOpenSubmenu} />
-            : value === null || value === undefined || value === false
-            ? <Disabled title={title} />
-            : <Unrecognized title={title} />
-        ))}
+        {options.map(([title, value], i) => {
+            const active = choice == i;
+            const setActive = () => setChoice(i)
+            return typeof value == 'function'
+                ? <Action title={title} action={value} active={active} setActive={setActive} />
+                : value instanceof Array
+                ? <Submenu title={title} options={value} id={i} active={active}
+                    setActive={setActive} sub={subchoice} setSub={setSubchoice} />
+                : value === null || value === undefined || value === false
+                ? <Disabled title={title} active={active} setActive={setActive} />
+                : <Unrecognized title={title} active={active} setActive={setActive} />
+        })}
     </div>
 }
-function Action({ title, action }: ActionProps): React.ReactElement {
-    return <div onClick={ev => {
-        ev.stopPropagation();
-        action();
-    }} className='context-entry'>
+function Action({ title, action, active, setActive }: ActionProps): React.ReactElement {
+    return <div className={classList('context-entry', active && 'active')}
+        onMouseEnter={setActive} onClick={ev => action()}>
         <Title>{title}</Title>
     </div>
 }
@@ -128,60 +141,18 @@ function Unrecognized({ title }: PropsNoValue): React.ReactElement {
     return <div className='context-unrecognized'><Title>{title}</Title></div>
 }
 
-function Submenu({ title, options, id, open, onOpen }: SubmenuProps): React.ReactElement {
-    const [state, event] = React.useReducer((
-        state: 'closed'|'open'|'timeout'|'pending',
-        event: 'forceClose'|'enter'|'leave'|'timeout'|'open'
-    ) => { switch (state) {
-        case 'open': switch (event) {
-            case 'forceClose': return 'closed';
-            case 'leave': return 'timeout';
-            default: return state;
-        }
-        case 'pending': switch (event) {
-            case 'forceClose': return 'closed';
-            case 'open': return 'open';
-            default: return state;
-        }
-        case 'closed': switch (event) {
-            case 'enter':
-                onOpen(id);
-                return 'pending';
-            default: return state;
-        }
-        case 'timeout': switch (event) {
-            case 'forceClose': return 'closed';
-            case 'enter': return 'open';
-            case 'timeout': return 'closed';
-            default: return state;
-        }
-        default: return state;
-    } }, 'closed');
-    React.useEffect(() => {
-        if (open !== id && (state == 'open' || state == 'timeout')) event('forceClose');
-        if (open === id && state == 'pending') event('open');
-    }, [open, id, state]);
+function Submenu({ title, options, id, active, setActive, sub, setSub }: SubmenuProps): React.ReactElement {
     const [dimref, dims, visible] = useDimensions();
     const el = React.useRef<HTMLDivElement>(null);
-    React.useEffect(() => {
-        if (state == 'closed') return;
-        const onClick = (ev: MouseEvent) => {
-            const clicked = ev.target as HTMLElement;
-            if (!el.current?.contains(clicked)) event('forceClose');
-        };
-        window.addEventListener('click', onClick);
-        return () => window.removeEventListener('click', onClick);
-    }, [state == 'closed']);
-    React.useEffect(() => {
-        if (state != 'timeout') return;
-        const handle = setTimeout(() => event('timeout'), timeout);
-        return () => clearTimeout(handle);
-    }, [state == 'timeout']);
-    return <div ref={mergeRefs(el, dimref)} className='context-submenu context-entry'
-        onMouseEnter={() => event('enter')} onMouseLeave={() => event('leave')}>
+    return <div ref={mergeRefs(el, dimref)} /*onClick={e => e.stopPropagation()}*/
+        className={classList('context-submenu context-entry', active && 'active')} onMouseEnter={e => {
+            e.stopPropagation()
+            setActive()
+        }}>
         <Title>{title}</Title>
-        {(state == 'open' || state == 'timeout') && visible ? <ExtractToBody>
-            <DropdownMenu options={options} {...dims} top={dims.bottom} bottom={dims.top-1} />
+        {active && visible ? <ExtractToBody>
+            <DropdownMenu options={options} {...dims} top={dims.bottom} bottom={dims.top-1}
+                active={[sub, setSub]} />
         </ExtractToBody> : null}
     </div>
 }

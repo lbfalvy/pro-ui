@@ -25,7 +25,7 @@ const defaultDimensionsString = JSON.stringify(defaultDimensions);
  * @returns ref, size of the value of ref, whether anything is visible
  */
 export function useDimensions<T extends HTMLElement>(): [React.Ref<T>, Dimensions, boolean] {
-    const ref = React.useRef<T>(null);
+    const ref = React.useRef<T | null>(null);
     const watcher = React.useRef<HTMLDivElement | null>(null);
     const [dimensions, setDimensions] = React.useState<string>(defaultDimensionsString);
     // This tiny div tracks the top left corner of the element
@@ -44,7 +44,7 @@ export function useDimensions<T extends HTMLElement>(): [React.Ref<T>, Dimension
         watcher.current.style.top = `${data.top-1}px`;
         watcher.current.style.left = `${data.left-1}px`;
         if (data) setDimensions(JSON.stringify(data));
-    }, [ref.current, watcher.current]);
+    }, []);
     React.useEffect(() => {
         if (!ref.current) return;
         recalculate();
@@ -69,6 +69,13 @@ export function useDimensions<T extends HTMLElement>(): [React.Ref<T>, Dimension
         move.observe(watcher.current);
         return () => move.disconnect();
     });
-    const ret = React.useMemo(() => JSON.parse(dimensions), [dimensions]);
-    return [upCastRef(ref), ret, ret.width > 0 && ret.height > 0];
+    const dims = React.useMemo(() => JSON.parse(dimensions), [dimensions]);
+    return [
+        v => {
+            ref.current = v;
+            recalculate();
+        },
+        dims,
+        dims.width > 0 && dims.height > 0
+    ];
 }

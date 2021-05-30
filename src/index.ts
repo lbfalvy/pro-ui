@@ -1,4 +1,4 @@
-export { default as Tabs, removeTab, TabData, TabsProps } from './Tabs';
+export { default as Tabs, TabData, TabsProps } from './Tabs';
 export {
     default as Splits, getSplitData, isSplitData,
     traverseSplitTree, editSplitData, transposeSplitTree,
@@ -16,3 +16,4 @@ export {
 } from './ContextMenu';
 export { useDimensions, Dimensions } from './useDimensions';
 export { ID, Axis, Side } from './types';
+export { removeItem, classList, mergeRefs, useWindowDimensions, usePointer } from './utils';
